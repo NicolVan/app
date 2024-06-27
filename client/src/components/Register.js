@@ -16,10 +16,10 @@ const Register = () => {
   });
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
-    console.log(values); // Log the payload to verify
+    console.log(values); 
     try {
       const res = await axios.post('http://localhost:5000/api/auth/register', values);
-      const { user, token } = res.data; // Ensure the response has user and token
+      const { user, token } = res.data; 
       dispatch(setUser({ user, token }));
     } catch (err) {
       if (err.response && err.response.data) {
@@ -54,7 +54,7 @@ const Register = () => {
             <ErrorMessage name="password" component="div" />
           </div>
           {errors.submit && <div>{errors.submit}</div>}
-          <button type="submit" disabled={isSubmitting}>
+          <button type="button" disabled={isSubmitting}>
             Register
           </button>
         </Form>
