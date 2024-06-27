@@ -1,9 +1,9 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
+const recipeRoutes = require('./routes/recipes');
 
 const app = express();
 
@@ -20,6 +20,7 @@ mongoose.connect(MONGO_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api', require('./routes/recipes'));
 
 app.get('/', (req, res) => res.send('API Running'));
 
