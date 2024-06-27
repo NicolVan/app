@@ -2,10 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Recipe = require('../models/Recipe');
+const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
-
+// Register
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -14,7 +16,7 @@ router.post('/register', async (req, res) => {
   res.json({ message: 'User registered' });
 });
 
-
+// Login
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
@@ -28,6 +30,8 @@ router.post('/login', async (req, res) => {
   const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
   res.json({ token });
 });
+
+// Add favorite recipe
 router.post('/favorites/:recipeId', authMiddleware, async (req, res) => {
   const user = await User.findById(req.user.id);
   const recipe = await Recipe.findById(req.params.recipeId);
@@ -39,6 +43,7 @@ router.post('/favorites/:recipeId', authMiddleware, async (req, res) => {
   res.json(user.favorites);
 });
 
+// Get favorite recipes
 router.get('/favorites', authMiddleware, async (req, res) => {
   const user = await User.findById(req.user.id).populate('favorites');
   res.json(user.favorites);
