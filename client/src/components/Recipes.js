@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
-
+import StarButton from './StarButton';
 
 const Recipe = () => {
   const [recipes, setRecipes] = useState([]);
@@ -96,6 +96,7 @@ const Recipe = () => {
                   <p>Cook Time: {recipe.cookTime} minutes</p>
                   <p>Servings: {recipe.servings}</p>
                   <p>Author: {recipe.author}</p>
+                  <StarButton recipeId={recipe._id} />
                 </div>
                 <Popup trigger={<button className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'>
                     Show Recipe

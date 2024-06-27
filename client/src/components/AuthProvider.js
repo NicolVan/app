@@ -1,23 +1,54 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    const login = () => {
-        setIsAuthenticated(true);
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/auth/verify', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Error verifying token:', error);
+          setIsAuthenticated(false);
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
     };
 
-    const logout = () => {
-        setIsAuthenticated(false);
-    };
+    checkAuth();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      localStorage.setItem('token', response.data.token);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setIsAuthenticated(false);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
-export default AuthProvider;
+export { AuthProvider, AuthContext };

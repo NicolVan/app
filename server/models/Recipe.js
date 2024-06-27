@@ -15,7 +15,7 @@ const recipeSchema = new mongoose.Schema({
   servings: { type: Number, required: true },
   author: { type: String, required: true },
   imageUrl: { type: String },
-  isFavourite: { type: Boolean, default: false }
+  isFavourite: { type: [String], require:true}
 });
 
 const Recipe = mongoose.model('Recipe', recipeSchema);

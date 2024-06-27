@@ -7,7 +7,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/users/favorites', {
+      const res = await axios.get('http://localhost:5000/api/favorite', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setFavorites(res.data);
@@ -20,8 +20,8 @@ const Favorites = () => {
       <h1>Your Favorite Recipes</h1>
       {favorites.map(recipe => (
         <div key={recipe._id}>
-          <h2>{recipe.title}</h2>
-          <p>{recipe.description}</p>
+          <h2>{recipe.name}</h2>
+          <p>{recipe.category.join(', ')}</p>
         </div>
       ))}
     </div>

@@ -4,12 +4,15 @@ const cors = require('cors');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
+const favoriteRoutes = require('./routes/favorites')
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/recipes', recipeRoutes);
+app.use('/api', favoriteRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -21,6 +24,7 @@ mongoose.connect(MONGO_URI, {
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/recipes'));
+app.use('/api', require('./routes/favorites'));
 
 app.get('/', (req, res) => res.send('API Running'));
 

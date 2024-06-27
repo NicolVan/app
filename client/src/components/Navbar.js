@@ -25,6 +25,7 @@ function Navbar() {
                     <Link to='/'>Search Recipe</Link>
                     {isAuthenticated ? (
                         <>
+                            <Link to='/favorite'>Favorite</Link>
                             <Link to='/profile'>Profile</Link>
                             <Link to='/store'>Store</Link>
                             <button onClick={handleLogout}>Log Out</button>
@@ -50,6 +51,9 @@ function Navbar() {
                         </li>
                         {isAuthenticated ? (
                             <>
+                                <li>
+                                    <Link to='/favorite'>Favorite</Link>
+                                </li>
                                 <li>
                                     <Link to='/profile' className='hover:text-gray-300' onClick={handleToggle}>Profile</Link>
                                 </li>
