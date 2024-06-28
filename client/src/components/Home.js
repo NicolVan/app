@@ -1,14 +1,19 @@
-
 import React from 'react';
-import AddRecipe from './AddRecipe';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    return (
-        <div>
-            <h1>Welcome to the Recipe App</h1>
-            <AddRecipe/>
-        </div>
-    );
-}
+  const navigate = useNavigate();
+
+  const navigateToAddRecipe = () => {
+    navigate('/add-recipe');
+  };
+
+  return (
+    <div>
+      <h1>Home</h1>
+      <button onClick={navigateToAddRecipe}>Add Recipe</button>
+    </div>
+  );
+};
 
 export default Home;
