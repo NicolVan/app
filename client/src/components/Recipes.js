@@ -47,7 +47,7 @@ const Recipe = () => {
           placeholder='Search by name'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='justify-items-center text-center w-full rounded-xl mt-5 border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
+          className='justify-items-center text-center w-[700px] rounded-xl mt-5 border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
         />
         <div className='grid grid-cols-5 gap-5 justify-items-center mt-5'>
           {cat.map((category) => (
@@ -101,7 +101,7 @@ const Recipe = () => {
                     Show Recipe
                   </button>} modal>
                     {close => (
-                      <div className='p-4 overflow-y-auto max-h-screen'>
+                      <div className='p-4 h-full w-[700px] bg-white overflow-scroll'>
                         <button onClick={close} className='absolute top-2 right-2 text-gray-600 hover:text-gray-900 focus:outline-none'>
                           <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />

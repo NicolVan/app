@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import trash from './image/trash.png';
 
-const AddRecipe = ({ setRecipes, setResults }) => {
+const AddRecipe = () => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState([]);
   const [instructions, setInstructions] = useState('');
@@ -12,7 +12,7 @@ const AddRecipe = ({ setRecipes, setResults }) => {
   const [author, setAuthor] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
-  const [open, setOpen] = useState(0);
+
 
 
   const categories = ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'];
@@ -35,12 +35,12 @@ const AddRecipe = ({ setRecipes, setResults }) => {
       ingredients
     };
 
-    axios.post('http://localhost:4000/recipes', newRecipe)
+    axios.post('http://localhost:5000/api/recipes', newRecipe)
       .then(response => {
-        setRecipes(prevRecipes => [response.data, ...prevRecipes]);
-        setResults(prevResults => [response.data, ...prevResults]);
+        console.log('Recipe added successfully:', response.data);
+        alert('Recipe added Succesfully')
         clearForm();
-        setOpen(0);
+        
       })
       .catch(error => console.error('Error adding recipe:', error));
   };
@@ -83,12 +83,11 @@ const AddRecipe = ({ setRecipes, setResults }) => {
   };
 
   return (
-    <div>
-      <div className='grid bg-green-800'>
-        <h2 className='text-2xl text-center'>Share Recipe</h2>
-        <p className='mt-5'>Name recipe:</p>
+    <div className='bg-green-700 border rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl'>
+        <h2 className='text-2xl text-center text-white'>Share Recipe</h2>
+        <p className='mt-5 text-white'>Name recipe:</p>
         {renderFormInput("Name", name, setName)}
-        <p>Dish type:</p>
+        <p className='text-white'>Dish type:</p>
         <select
           multiple
           value={category}
@@ -99,27 +98,27 @@ const AddRecipe = ({ setRecipes, setResults }) => {
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
-        <p>Preparation Time:</p>
+        <p className='text-white'>Preparation Time:</p>
         {renderFormInput("45 min", prepTime, setPrepTime, "number")}
-        <p>Cook time:</p>
+        <p className='text-white'>Cook time:</p>
         {renderFormInput("30 min", cookTime, setCookTime, "number")}
-        <p>No. of Servings:</p>
+        <p className='text-white'>No. of Servings:</p>
         {renderFormInput("5", servings, setServings, "number")}
-        <p>Author name:</p>
+        <p className='text-white'>Author name:</p>
         {renderFormInput("Author", author, setAuthor)}
-        <p>Image URL:</p>
+        <p className='text-white'>Image URL:</p>
         {renderFormInput("Image URL", imageUrl, setImageUrl)}
-      </div>
-      <p>Instruction:</p>
+    
+      <p className='text-white'>Instruction:</p>
       <textarea 
         placeholder="Instructions" 
         value={instructions} 
         onChange={e => setInstructions(e.target.value)} 
         className="justify-items-center text-center w-full h-96 rounded-xl border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2" 
       />
-      <h3 className="font-bold mb-2">Ingredients</h3>
+      <h3 className="font-bold mb-2 text-white">Ingredients</h3>
       {ingredients.map((ingredient, index) => (
-        <div key={index} className="mb-2 flex items-center justify-center">
+        <div key={index} className="mb-2 flex items-center justify-center w-full">
           {renderFormInput("milk", ingredient.name, (value) => handleIngredientChange(index, 'name', value))}
           {renderFormInput("2 spoon", ingredient.quantity, (value) => handleIngredientChange(index, 'quantity', value))}
           <button 
@@ -129,7 +128,7 @@ const AddRecipe = ({ setRecipes, setResults }) => {
           </button>
           <button 
             onClick={() => removeIngredient(index)} 
-            className="w-10 h-10 me-2 mb-2 text-center object-center justify-center items-center grid text-sm font-medium text-gray-900 focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            className="w-10 h-10 me-2 mb-2 text-center bg-white object-center justify-center items-center grid text-sm font-medium text-gray-900 focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
             <img src={trash} className='w-5 h-5 object-center' alt="Remove"/>
           </button>
@@ -140,7 +139,9 @@ const AddRecipe = ({ setRecipes, setResults }) => {
         className="justify-center w-full h-10 text-center me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
       >Add Recipe
       </button>
-    </div>
+      </div>
+      
+    
   );
 }
 

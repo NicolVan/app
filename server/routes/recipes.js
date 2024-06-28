@@ -3,7 +3,7 @@ const Recipe = require('../models/Recipe');
 
 const router = express.Router();
 
-router.get('/recipe', async (req, res) => {
+router.get('/recipes', async (req, res) => {
     try {
         const { search, categories } = req.query;
         let query = {};
@@ -26,7 +26,7 @@ router.get('/recipe', async (req, res) => {
     }
 });
 
-router.post('/recipe', async (req, res) => {
+router.post('/recipes', async (req, res) => {
     try {
         const { name, description, categories, ingredients, instructions, prepTime, cookTime, servings, author, imageUrl } = req.body;
         const newRecipe = new Recipe({ name, description, categories, ingredients, instructions, prepTime, cookTime, servings, author, imageUrl });

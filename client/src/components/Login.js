@@ -1,14 +1,13 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { login  as loginAction } from '../redux/actions/userActions';
+
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 

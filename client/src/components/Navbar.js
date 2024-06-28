@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { FaTimes, FaBars } from 'react-icons/fa';
-import logo from './image/logo .png'; 
+import logo from './image/logo.png'; 
 
 function Navbar() {
     const { isAuthenticated, logout } = useContext(AuthContext);
@@ -26,8 +26,8 @@ function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <Link to='/favorite'>Favorite</Link>
-                            <Link to='/profile'>Profile</Link>
                             <Link to='/store'>Store</Link>
+                            <Link to='/profile'>Profile</Link>
                             <button onClick={handleLogout}>Log Out</button>
                         </>
                     ) : (
