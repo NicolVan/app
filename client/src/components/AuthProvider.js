@@ -6,6 +6,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -28,12 +29,13 @@ const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async ( email, password) => {
     console.log('Logging in with:', { email, password });
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setIsAuthenticated(true);
+      setUser(response.data.user);
     } catch (error) {
       console.error('Error logging in:', error.response.data); 
       setIsAuthenticated(false);
@@ -46,7 +48,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
