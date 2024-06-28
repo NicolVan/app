@@ -14,17 +14,17 @@ export const register = (userData) => async (dispatch) => {
 };
 
 export const login = (credentials) => async (dispatch) => {
+  console.log('Login request payload:', credentials); // 
   try {
-    const response = await axios.post(`${API_URL}/login`, credentials);
-    if (response.data.token) {
-      dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-      return { type: LOGIN_SUCCESS, payload: response.data };
-    } else {
-      dispatch({ type: LOGIN_FAIL, error: response.data.msg });
-      return { type: LOGIN_FAIL, error: response.data.msg };
-    }
+    const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+    console.log('Login response:', response.data); 
+    localStorage.setItem('token', response.data.token); 
+    dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+    return { type: LOGIN_SUCCESS, payload: response.data };
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, error: error.message });
-    return { type: LOGIN_FAIL, error: error.message };
+    console.error('Error response:', error.response); 
+    const errorMessage = error.response ? error.response.data.msg : error.message;
+    dispatch({ type: LOGIN_FAIL, error: errorMessage });
+    return { type: LOGIN_FAIL, error: errorMessage };
   }
 };

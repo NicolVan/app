@@ -23,20 +23,18 @@ const Login = () => {
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
+    console.log('Submitting login form with values:', values); 
     try {
-      const response = await dispatch(loginAction(values));
-      if (response.type === 'LOGIN_SUCCESS') {
-        login(response.payload.token);
-        navigate('/profile');
-      } else {
-        console.error('Login failed', response);
-      }
+      await login(values.email, values.password);
+      const token = localStorage.getItem('token');
+      console.log('Token after login:', token); 
+      navigate('/profile'); 
     } catch (error) {
-      console.error('Error during login', error);
+      console.error('Error during login:', error);
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Formik
@@ -49,7 +47,7 @@ const Login = () => {
           <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 sm:max-w-xl sm:mx-auto">
               <div className="">
-              <img src='https://i.pinimg.com/564x/18/bf/2b/18bf2b49e5140637f33938195a786429.jpg' 
+              <img src='https://i.pinimg.com/564x/18/bf/2b/18bf2b49e5140637f33938195a786429.jpg'alt='fruit' 
               className='absolute inset-0 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl  w-96 h-full'></img>
               </div>
               <div className='relative px-4 py-10 bg-white shadow-lg -skew-y-0 sm:skew-y-9 sm:-rotate-0 sm:rounded-3xl sm:p-20'>
@@ -115,4 +113,3 @@ const Login = () => {
 };
 
 export default Login;
-

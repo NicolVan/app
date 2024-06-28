@@ -7,8 +7,8 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Recipes from './components/Recipes';
-import Home from './components/Home'; 
-import Favorite from './components/Favorite';
+import Home from './components/Home';
+
 
 function App() {
     return (
@@ -17,11 +17,10 @@ function App() {
                 <Router>
                     <Navbar />
                     <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/profile" element={<Recipes />} />
+                        <Route path="/" element={<Recipes />} />
+                        <Route path="/profile" element={<Home/>} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path='/favorite' element={<Favorite/>}/>
                     </Routes>
                 </Router>
             </AuthProvider>

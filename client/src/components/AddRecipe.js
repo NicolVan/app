@@ -14,7 +14,7 @@ const AddRecipe = ({ setRecipes, setResults }) => {
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
   const [open, setOpen] = useState(0);
 
-  // Define categories
+
   const categories = ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'];
 
   const addRecipe = () => {

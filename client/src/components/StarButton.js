@@ -66,3 +66,4 @@ const StarButton = ({ recipeId }) => {
 };
 
 export default StarButton;
+

@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await axios.get('http://localhost:5000/api/auth/verify', {
+          await axios.get('http://localhost:5000/api/auth/verify', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setIsAuthenticated(true);
@@ -29,12 +29,13 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
+    console.log('Logging in with:', { email, password });
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setIsAuthenticated(true);
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Error logging in:', error.response.data); 
       setIsAuthenticated(false);
     }
   };
