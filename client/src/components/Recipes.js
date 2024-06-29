@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
+import { AuthContext } from './AuthProvider';
 
 
 const Recipe = () => {
+  const { user } = useContext(AuthContext);
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState('');
   const cat = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
-
+  
   const fetchRecipes = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/recipes', {
@@ -38,10 +40,33 @@ const Recipe = () => {
     });
   };
 
+  const handleSaveRecipe = async (recipeId) => {
+    try {
+      const payload = { userId: user._id, recipeId };
+      console.log('Saving recipe with payload:', payload);
+      const response = await axios.post('http://localhost:5000/api/saverecipes/saveRecipe', payload);
+      console.log('Save response:', response);
+      alert('Recipe saved successfully!');
+    } catch (error) {
+      if (error.response) {
+        
+        console.error('Error saving recipe:', error.response.data);
+      } else if (error.request) {
+        
+        console.error('Error saving recipe: No response received', error.request);
+      } else {
+       
+        console.error('Error saving recipe:', error.message);
+      }
+      alert('Failed to save recipe.');
+    }
+  };
+
   return (
-    <div className='grid mt-2 bg-green-700 text-center justify-center items-center text-gray-700 h-screen'>
-      <h1 className='text-2xl font-bold mb-4 text-white'>Recipes</h1>
-      <div className='w-full flex flex-col items-center mb-4'>
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <div className='relative px-4 py-10 bg-white shadow-lg -skew-y-0 sm:skew-y-9 sm:-rotate-0 sm:rounded-3xl sm:p-20'>
+      <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid'>
+      <h1 className='text-2xl font-bold mb-4 '>Recipes</h1>
         <input
           type='text'
           placeholder='Search by name'
@@ -75,7 +100,8 @@ const Recipe = () => {
           Search
         </button>
       </div>
-      <div className='items-center'>
+      <div className='grid bg-gray-100'>
+      <div className='justify-items-center'>
         {recipes.length === 0 ? (
           <p className='text-white'>Recipe not found</p>
         ) : (
@@ -96,12 +122,13 @@ const Recipe = () => {
                   <p>Cook Time: {recipe.cookTime} minutes</p>
                   <p>Servings: {recipe.servings}</p>
                   <p>Author: {recipe.author}</p>
+                  <button onClick={() => handleSaveRecipe(recipe._id)}>Save Recipe</button>
                 </div>
                 <Popup trigger={<button className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'>
                     Show Recipe
                   </button>} modal>
                     {close => (
-                      <div className='p-4 h-full w-[700px] bg-white overflow-scroll'>
+                      <div className='p-4 h-full w-[700px] bg-gray-100 overflow-scroll'>
                         <button onClick={close} className='absolute top-2 right-2 text-gray-600 hover:text-gray-900 focus:outline-none'>
                           <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
@@ -127,7 +154,10 @@ const Recipe = () => {
           </div>
         )}
       </div>
+      </div>
     </div>
+    </div>
+    
   );
 };
 

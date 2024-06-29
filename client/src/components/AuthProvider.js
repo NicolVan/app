@@ -13,10 +13,11 @@ const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          await axios.get('http://localhost:5000/api/auth/verify', {
+          const response = await axios.get('http://localhost:5000/api/auth/verify', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setIsAuthenticated(true);
+          setUser(response.data.user);
         } catch (error) {
           console.error('Error verifying token:', error);
           setIsAuthenticated(false);
@@ -45,6 +46,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    setUser(null)
   };
 
   return (

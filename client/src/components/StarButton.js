@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
-const StarButton = ({ recipeId }) => {
+const StarButton = ({ recipe, userId }) => {
   const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const StarButton = ({ recipeId }) => {
           return;
         }
 
-        const response = await axios.get('http://localhost:5000/api/favorite', {
+        const response = await axios.post('http://localhost:5000/api/users/${userId}/favorite', {
           headers: { Authorization: `Bearer ${token}` }
         });
 

@@ -41,8 +41,8 @@ const Register = () => {
           <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
           <div className="relative py-3 sm:max-w-xl sm:mx-auto">
             <div>
-              <img src='https://i.pinimg.com/564x/18/bf/2b/18bf2b49e5140637f33938195a786429.jpg'alt='fruit' 
-              className='absolute inset-0 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl  w-96 h-full'></img>
+              <img src='https://i.pinimg.com/564x/ce/a4/69/cea469e06b6c364991c959be9a51aa18.jpg'alt='fruit' 
+              className='absolute inset-0 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl w-96 h-full'></img>
             </div>
             <div className='relative px-4 py-10 bg-white shadow-lg -skew-y-0 sm:skew-y-9 sm:-rotate-0 sm:rounded-3xl sm:p-20'>
             <div className='max-w-md mx-auto'>

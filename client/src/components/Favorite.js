@@ -7,7 +7,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/favorite', {
+      const res = await axios.get('http://localhost:5000/api/users/:userId/favorite', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setFavorites(res.data);

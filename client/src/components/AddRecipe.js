@@ -83,11 +83,11 @@ const AddRecipe = () => {
   };
 
   return (
-    <div className='bg-green-700 border rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl'>
-        <h2 className='text-2xl text-center text-white'>Share Recipe</h2>
-        <p className='mt-5 text-white'>Name recipe:</p>
+    <div className='border rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl'>
+        <h2 className='text-2xl text-center'>Share Recipe</h2>
+        <p className='mt-5 '>Name recipe:</p>
         {renderFormInput("Name", name, setName)}
-        <p className='text-white'>Dish type:</p>
+        <p className=''>Dish type:</p>
         <select
           multiple
           value={category}
@@ -98,18 +98,18 @@ const AddRecipe = () => {
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
-        <p className='text-white'>Preparation Time:</p>
+        <p className=''>Preparation Time:</p>
         {renderFormInput("45 min", prepTime, setPrepTime, "number")}
-        <p className='text-white'>Cook time:</p>
+        <p className=''>Cook time:</p>
         {renderFormInput("30 min", cookTime, setCookTime, "number")}
-        <p className='text-white'>No. of Servings:</p>
+        <p className=''>No. of Servings:</p>
         {renderFormInput("5", servings, setServings, "number")}
-        <p className='text-white'>Author name:</p>
+        <p className=''>Author name:</p>
         {renderFormInput("Author", author, setAuthor)}
-        <p className='text-white'>Image URL:</p>
+        <p className=''>Image URL:</p>
         {renderFormInput("Image URL", imageUrl, setImageUrl)}
     
-      <p className='text-white'>Instruction:</p>
+      <p className=''>Instruction:</p>
       <textarea 
         placeholder="Instructions" 
         value={instructions} 
