@@ -100,14 +100,14 @@ const Recipe = () => {
           Search
         </button>
       </div>
-      <div className='grid bg-gray-100'>
+      <div className='grid'>
       <div className='justify-items-center'>
         {recipes.length === 0 ? (
           <p className='text-white'>Recipe not found</p>
         ) : (
           <div className='flex flex-wrap justify-center'>
             {recipes.map((recipe,index) => (
-              <div key={index} className='grid mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border'>
+              <div key={index} className='grid mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-2xl w-96 rounded-xl bg-clip-border'>
                 <h2 className='text-xl font-bold'>{recipe.name}</h2>
                 <p>Categories: {recipe.category.join(', ')}</p>
                 <div>
@@ -128,7 +128,8 @@ const Recipe = () => {
                     Show Recipe
                   </button>} modal>
                     {close => (
-                      <div className='p-4 h-full w-[700px] bg-gray-100 overflow-scroll'>
+                      <div className='p-4 h-[900px] w-[700px] bg-gray-100 overflow-scroll shadow-xl rounded-lg'>
+                        <div className='p-4 h-auto w-[650px] bg-white rounded-lg shadow-xl'>
                         <button onClick={close} className='absolute top-2 right-2 text-gray-600 hover:text-gray-900 focus:outline-none'>
                           <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
@@ -146,6 +147,7 @@ const Recipe = () => {
                           <h3 className='font-bold'>Instructions:</h3>
                           <p>{recipe.instructions}</p>
                         </div>
+                      </div>
                       </div>
                     )}
                   </Popup>
