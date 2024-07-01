@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
 import { AuthContext } from './AuthProvider';
+import star from '../components/image/star.png'
+import star1 from './image/star 1.png'
 
 
 const Recipe = () => {
@@ -10,7 +12,8 @@ const Recipe = () => {
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState('');
   const cat = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
-  
+  const [buttonImage, setButtonImage] = useState(star);
+
   const fetchRecipes = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/recipes', {
@@ -47,6 +50,11 @@ const Recipe = () => {
       const response = await axios.post('http://localhost:5000/api/saverecipes/saveRecipe', payload);
       console.log('Save response:', response);
       alert('Recipe saved successfully!');
+      if(response.status === 200){
+        setButtonImage(star1);
+      }else{
+        setButtonImage(star)
+      }
     } catch (error) {
       if (error.response) {
         
@@ -63,10 +71,10 @@ const Recipe = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
       <div className='relative px-4 py-10 bg-white shadow-lg -skew-y-0 sm:skew-y-9 sm:-rotate-0 sm:rounded-3xl sm:p-20'>
       <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid'>
-      <h1 className='text-2xl font-bold mb-4 '>Recipes</h1>
+      <h1 className='text-2xl font-bold mb-4'>Recipes</h1>
         <input
           type='text'
           placeholder='Search by name'
@@ -122,7 +130,7 @@ const Recipe = () => {
                   <p>Cook Time: {recipe.cookTime} minutes</p>
                   <p>Servings: {recipe.servings}</p>
                   <p>Author: {recipe.author}</p>
-                  <button onClick={() => handleSaveRecipe(recipe._id)}>Save Recipe</button>
+                  <button onClick={() => handleSaveRecipe(recipe._id)}><img src={buttonImage} alt='star'/></button>
                 </div>
                 <Popup trigger={<button className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'>
                     Show Recipe

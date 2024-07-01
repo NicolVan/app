@@ -19,11 +19,11 @@ const MainContent = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Recipes />} />
-      <Route path="/profile" element={<Home />} />
-      <Route path="/add-recipe" element={<AddRecipe />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path='/' element={<Recipes />} />
+      <Route path='/profile' element={<Home />} />
+      <Route path='/add-recipe' element={<AddRecipe />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/login' element={<Login />} />
     </Routes>
   );
 };
