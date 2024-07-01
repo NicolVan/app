@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
-app.use('/api/saverecipes', savedRecipeRoutes);
+app.use('/api/savedrecipes', savedRecipeRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -25,7 +25,7 @@ mongoose.connect(MONGO_URI, {
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/recipes'));
-app.use('/api/saverecipes', require('./routes/SaveRecipe'));
+app.use('/api/savedrecipes', require('./routes/SaveRecipe'));
 
 app.get('/', (req, res) => res.send('API Running'));
 

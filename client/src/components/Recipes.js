@@ -12,7 +12,7 @@ const Recipe = () => {
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState('');
   const cat = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
-  const [buttonImage, setButtonImage] = useState(star);
+  const [savedRecipes, setSavedRecipes] = useState({});
 
   const fetchRecipes = useCallback(async () => {
     try {
@@ -33,6 +33,18 @@ const Recipe = () => {
     fetchRecipes();
   }, [fetchRecipes]);
 
+  useEffect(() => {
+    const loadSavedRecipes = () => {
+      let savedRecipes = JSON.parse(localStorage.getItem('savedRecipes')) || [];
+      let savedRecipesMap = savedRecipes.reduce((acc, recipeId) => {
+        acc[recipeId] = true;
+        return acc;
+      }, {});
+      setSavedRecipes(savedRecipesMap);
+    };
+    loadSavedRecipes();
+  }, []);
+
   const handleCategoryClick = (category) => {
     setCategories((prevCategories) => {
       if (prevCategories.includes(category)) {
@@ -42,33 +54,42 @@ const Recipe = () => {
       }
     });
   };
-
+  
   const handleSaveRecipe = async (recipeId) => {
     try {
       const payload = { userId: user._id, recipeId };
       console.log('Saving recipe with payload:', payload);
       const response = await axios.post('http://localhost:5000/api/saverecipes/saveRecipe', payload);
       console.log('Save response:', response);
-      alert('Recipe saved successfully!');
       if(response.status === 200){
-        setButtonImage(star1);
-      }else{
-        setButtonImage(star)
+        saveRecipeLocally(recipeId);
+        setSavedRecipes(prevState => ({
+          ...prevState,
+          [recipeId]: true
+        }));
+        alert('Recipe saved successfully!');
       }
     } catch (error) {
       if (error.response) {
-        
         console.error('Error saving recipe:', error.response.data);
+        alert(`Failed to save recipe: ${error.response.data.message || 'Unknown error'}`);
       } else if (error.request) {
-        
         console.error('Error saving recipe: No response received', error.request);
+        alert('Failed to save recipe: No response received from the server.');
       } else {
-       
         console.error('Error saving recipe:', error.message);
+        alert(`Failed to save recipe: ${error.message}`);
       }
-      alert('Failed to save recipe.');
     }
   };
+
+  const saveRecipeLocally = (recipeId) => {
+    let savedRecipes = JSON.parse(localStorage.getItem('savedRecipes')) || [];
+    if (!savedRecipes.includes(recipeId)){
+      savedRecipes.push(recipeId);
+      localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+    }
+  }
 
   return (
     <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
@@ -130,7 +151,13 @@ const Recipe = () => {
                   <p>Cook Time: {recipe.cookTime} minutes</p>
                   <p>Servings: {recipe.servings}</p>
                   <p>Author: {recipe.author}</p>
-                  <button onClick={() => handleSaveRecipe(recipe._id)}><img src={buttonImage} alt='star'/></button>
+                  <button onClick={() => handleSaveRecipe(recipe._id)}>
+                        <img 
+                          src={savedRecipes[recipe._id] ? star1 : star} 
+                          alt='star' 
+                          className='w-5 h-5'
+                        />
+                      </button>
                 </div>
                 <Popup trigger={<button className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'>
                     Show Recipe

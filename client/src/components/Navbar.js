@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import { FaTimes, FaBars } from 'react-icons/fa';
 import logo from './image/logo.png'; 
 
 function Navbar() {
     const { isAuthenticated, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
     const handleLogout = () => {
         logout();
-        Navigate('/')
+        navigate('/login')
     };
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -33,8 +34,8 @@ function Navbar() {
                         </>
                     ) : (
                         <>
+                            <button onClick={() => navigate('/login')}>Login</button>
                             <Link to='/register'>Register</Link>
-                            <Link to='/login'>Login</Link>
                         </>
                     )}
                 </div>
