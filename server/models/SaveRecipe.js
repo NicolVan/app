@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const savedRecipeSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  recipeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe', required: true },
-}, { timestamps: true });
+const savedRecipeSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  recipeId: { type: Schema.Types.ObjectId, ref: 'Recipe', required: true }
+});
 
-const SavedRecipe = mongoose.model('SavedRecipe', savedRecipeSchema);
-
-module.exports = SavedRecipe;
+module.exports = mongoose.model('SavedRecipe', savedRecipeSchema);

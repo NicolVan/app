@@ -22,6 +22,7 @@ const AuthProvider = ({ children }) => {
           console.error('Error verifying token:', error);
           setIsAuthenticated(false);
           localStorage.removeItem('token');
+          localStorage.removeItem('userId');
         }
       }
       setLoading(false);
@@ -30,13 +31,17 @@ const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async ( email, password) => {
+  const login = async (email, password) => {
     console.log('Logging in with:', { email, password });
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
+      const { token, user } = response.data;
+      const userId = user._id;
+      console.log('Login response:', response.data);
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId); 
       setIsAuthenticated(true);
-      setUser(response.data.user);
+      setUser(user);
     } catch (error) {
       console.error('Error logging in:', error.response.data); 
       setIsAuthenticated(false);
@@ -45,6 +50,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     setIsAuthenticated(false);
     setUser(null)
   };

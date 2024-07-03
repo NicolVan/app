@@ -15,7 +15,7 @@ const recipeSchema = new mongoose.Schema({
   servings: { type: Number, required: true },
   author: { type: String, required: true },
   imageUrl: { type: String },
-  savedByUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  savedByUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 
 const Recipe = mongoose.model('Recipe', recipeSchema);

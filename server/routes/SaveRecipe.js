@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
 const SavedRecipe = require('../models/SaveRecipe');
@@ -8,6 +9,7 @@ const router = express.Router();
 
 router.post('/saveRecipe', async (req, res) => {
   const { userId, recipeId } = req.body;
+  console.log('Received saveRecipe request:', req.body);
   if (!userId || !recipeId) {
     console.log('Missing userId or recipeId:', { userId, recipeId });
     return res.status(400).send('Missing userId or recipeId');
@@ -21,7 +23,7 @@ router.post('/saveRecipe', async (req, res) => {
 
     await savedRecipe.save();
 
-    await User.findByIdAndUpdate(userId, { $push: { savedRecipes: saveRecipes._id } });
+    await User.findByIdAndUpdate(userId, { $push: { savedRecipes: savedRecipe._id } });
     await Recipe.findByIdAndUpdate(recipeId, { $push: { savedByUsers: userId } });
 
     res.status(200).send('Recipe saved successfully');
@@ -31,35 +33,7 @@ router.post('/saveRecipe', async (req, res) => {
   }
 });
 
-router.delete('/unsaveRecipe', async (req, res) => {
-  const { userId, recipeId } = req.body;
-  if (!userId || !recipeId) {
-    return res.status(400).send('Missing userId or recipeId');
-  }
-  try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
 
-    user.savedRecipes = user.savedRecipes.filter(id => id.toString() !== recipeId);
-    await user.save();
-
-    await SavedRecipe.findOneAndDelete({ 
-      userId: mongoose.Types.ObjectId(userId), 
-      recipeId: mongoose.Types.ObjectId(recipeId) 
-    });
-
-    await Recipe.findByIdAndUpdate(recipeId, { $pull: { savedByUsers: userId } });
-
-    await User.findByIdAndUpdate(userId, { $pull: { savedRecipes: recipeId } });
-
-    return res.status(200).send('Recipe removed from favorites');
-  } catch (error) {
-    console.error('Error unsaving recipe:', error);
-    res.status(500).send('Server error');
-  }
-});
 
 module.exports = router;
 

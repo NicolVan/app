@@ -6,12 +6,14 @@ import { AuthProvider, AuthContext } from './components/AuthProvider';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
-import Recipes from './components/Recipes';
 import Home from './components/Home';
 import AddRecipe from './components/AddRecipe';
+import Parentcomponent from './components/Parentcomponent';
+
+
 
 const MainContent = () => {
-  const { loading } = useContext(AuthContext);
+  const { loading, user } = useContext(AuthContext);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -19,7 +21,7 @@ const MainContent = () => {
 
   return (
     <Routes>
-      <Route path='/' element={<Recipes />} />
+      <Route path='/' element={<Parentcomponent user={user}/>} />
       <Route path='/profile' element={<Home />} />
       <Route path='/add-recipe' element={<AddRecipe />} />
       <Route path='/register' element={<Register />} />
@@ -42,3 +44,4 @@ function App() {
 }
 
 export default App;
+
