@@ -1,30 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Recipes from './Recipes';
 import axios from 'axios';
 
-const SaveRecipeButton = ({ recipeId, user }) => {
-  const saveRecipe = async () => {
+const SaveRecipe = ({ user }) => {
+  const [savedRecipes, setSavedRecipes] = useState({});
+
+  useEffect(() => {
+    const storedRecipes = JSON.parse(localStorage.getItem('savedRecipes')) || {};
+    setSavedRecipes(storedRecipes);
+  }, []);
+
+  const handleSaveRecipe = async (recipeId) => {
+    console.log('User in handleSaveRecipe:', user);
     if (!user || !user._id) {
       alert('User not logged in or invalid user ID');
       return;
     }
-
-    const payload = { userId: user._id, recipeId };
-    console.log('Saving recipe with payload:', payload);
-
     try {
+      const payload = { userId: user._id, recipeId };
+      console.log('Saving recipe with payload:', payload);
       const response = await axios.post('http://localhost:5000/api/savedrecipes/saveRecipe', payload, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-
+      console.log('Save response:', response);
       if (response.status === 200) {
-        console.log('Save response:', response);
-        alert('Recipe saved successfully!');
         saveRecipeLocally(recipeId);
+        setSavedRecipes(prevState => ({
+          ...prevState,
+          [recipeId]: true
+        }));
+        alert('Recipe saved successfully!');
       }
     } catch (error) {
-      handleSaveError(error);
+      if (error.response) {
+        console.error('Error saving recipe:', error.response.data);
+        alert(`Failed to save recipe: ${error.response.data.message || 'Unknown error'}`);
+      } else if (error.request) {
+        console.error('Error saving recipe: No response received', error.request);
+        alert('Failed to save recipe: No response received from the server.');
+      } else {
+        console.error('Error saving recipe:', error.message);
+        alert(`Failed to save recipe: ${error.message}`);
+      }
     }
   };
 
@@ -36,20 +55,16 @@ const SaveRecipeButton = ({ recipeId, user }) => {
     }
   };
 
-  const handleSaveError = (error) => {
-    if (error.response) {
-      console.error('Error saving recipe:', error.response.data);
-      alert(`Failed to save recipe: ${error.response.data.message || 'Unknown error'}`);
-    } else if (error.request) {
-      console.error('Error saving recipe: No response received', error.request);
-      alert('Failed to save recipe: No response received from the server.');
-    } else {
-      console.error('Error saving recipe:', error.message);
-      alert(`Failed to save recipe: ${error.message}`);
-    }
-  };
-
-  return <button onClick={saveRecipe}>Save Recipe</button>;
+  return (
+    <div>
+      <Recipes
+        user={user}
+        setSavedRecipes={setSavedRecipes}
+        savedRecipes={savedRecipes}
+        handleSaveRecipe={handleSaveRecipe}
+      />
+    </div>
+  );
 };
 
-export default SaveRecipeButton;
+export default SaveRecipe;

@@ -8,12 +8,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import AddRecipe from './components/AddRecipe';
-import Parentcomponent from './components/Parentcomponent';
+import GetSaveRecipe from './components/GetSaveRecipe';
 
 
 
 const MainContent = () => {
-  const { loading, user } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -21,7 +21,7 @@ const MainContent = () => {
 
   return (
     <Routes>
-      <Route path='/' element={<Parentcomponent user={user}/>} />
+      <Route path='/' element={<GetSaveRecipe />} />
       <Route path='/profile' element={<Home />} />
       <Route path='/add-recipe' element={<AddRecipe />} />
       <Route path='/register' element={<Register />} />

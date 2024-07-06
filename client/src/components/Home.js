@@ -1,19 +1,23 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
 const Home = () => {
-    const { user, isAuthenticated } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const navigateToAddRecipe = () => {
-        navigate('/add-recipe');
-    };
+  const navigateToAddRecipe = () => {
+    navigate('/add-recipe');
+  };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <h1>Home</h1>
-      {isAuthenticated && user && <h2>Welcome, {user.username}!</h2>}
+      <h2>Welcome, {user.username}!</h2>
       <button onClick={navigateToAddRecipe}>Add Recipe</button>
     </div>
   );

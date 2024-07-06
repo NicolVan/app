@@ -1,30 +1,28 @@
 const express = require('express');
 const Recipe = require('../models/Recipe');
-
 const router = express.Router();
 
 router.get('/recipes', async (req, res) => {
     try {
-        const { search, categories } = req.query;
-        let query = {};
-
-        if (search) {
-            query.name = { $regex: search, $options: 'i' };
-        }
-
-        if (categories) {
-            const categoryArray = categories.split(',').map(cat => cat.trim());
-            query.category = { $in: categoryArray };
-        }
-        console.log('Query:', query); 
-        const searchRecipes = await Recipe.find(query);
-        res.json(searchRecipes);
-        console.log('Fetched recipes:', searchRecipes); 
+      const { search, category } = req.query;
+  
+      const filter = {};
+  
+      if (search) {
+        filter.name = { $regex: search, $options: 'i' };
+      }
+  
+      if (category) {
+        const categories = category.split(',');
+        filter.categories = { $in: categories };
+      }
+  
+      const recipes = await Recipe.find(filter);
+      res.json(recipes);
     } catch (error) {
-        console.error('Error fetching recipes:', error);
-        res.status(400).json({ message: 'Bad request' });
+      res.status(500).json({ error: error.message });
     }
-});
+  });
 
 router.post('/recipes', async (req, res) => {
     try {
