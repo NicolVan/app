@@ -32,6 +32,32 @@ router.post('/saveRecipe', auth, async (req, res) => {
   }
 });
 
+router.delete('/unsaveRecipe', auth, async (req, res) => {
+  const { userId, recipeId } = req.body;
+
+  if (!recipeId) {
+    return res.status(400).send('Missing recipeId');
+  }
+  try {
+    const savedRecipe = await SavedRecipe.findOneAndDelete({ 
+      userId: new mongoose.Types.ObjectId(userId), 
+      recipeId: new mongoose.Types.ObjectId(recipeId) 
+    });
+
+    if (!savedRecipe) {
+      return res.status(404).send('Recipe not found in saved recipes');
+    }
+
+    await User.findByIdAndUpdate(userId, { $pull: { savedRecipes: savedRecipe._id } });
+    await Recipe.findByIdAndUpdate(recipeId, { $pull: { savedByUsers: userId } });
+
+    res.status(200).send('Recipe unsaved successfully');
+  } catch (error) {
+    console.error('Error unsaving recipe:', error);
+    res.status(500).send('Failed to unsave recipe');
+  }
+});
+
 router.post('/checkSaved', async (req, res) => {
   const { userId, recipeId } = req.body;
 

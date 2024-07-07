@@ -2,13 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
 import SaveRecipeButton from './SaveRecipeButton';
+import UnsaveRecipeButton from './UnsaveRecipeButton';
 
-const Recipe = ({ user, savedRecipes, handleSaveRecipe }) => {
+const Recipe = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
   const cat = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
   const [openPopupIndex, setOpenPopupIndex] = useState(null);
+  const [savedRecipes, setSavedRecipes] = useState({});
 
   const fetchRecipes = useCallback(async () => {
     try {
@@ -41,6 +43,20 @@ const Recipe = ({ user, savedRecipes, handleSaveRecipe }) => {
 
   const handleSearch = () => {
     fetchRecipes();
+  };
+
+  const handleSaveRecipe = (recipeId) => {
+    console.log('Saving recipe locally:', recipeId);
+    setSavedRecipes((prev) => ({ ...prev, [recipeId]: true }));
+  };
+
+  const handleUnsaveRecipe = (recipeId) => {
+    console.log('Unsaving recipe locally:', recipeId);
+    setSavedRecipes((prev) => {
+      const newSavedRecipes = { ...prev };
+      delete newSavedRecipes[recipeId];
+      return newSavedRecipes;
+    });
   };
 
   return (
@@ -105,12 +121,19 @@ const Recipe = ({ user, savedRecipes, handleSaveRecipe }) => {
                       <p>Author: {recipe.author}</p>
                     </div>
                     <div>
-                      <SaveRecipeButton
-                        recipeId={recipe._id}
-                        user={user}
-                        handleSaveRecipe={handleSaveRecipe}
-                        isSaved={!!savedRecipes[recipe._id]}
-                      />
+                      {savedRecipes[recipe._id] ? (
+                        <UnsaveRecipeButton 
+                          recipeId={recipe._id}
+                          user={user}
+                          handleUnsaveRecipe={handleUnsaveRecipe}
+                        />
+                      ) : (
+                        <SaveRecipeButton 
+                          recipeId={recipe._id}
+                          user={user}
+                          handleSaveRecipe={handleSaveRecipe}
+                        />
+                      )}
                     </div>
                     <div>
                       <button
