@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
-const savedRecipeRoutes = require('./routes/SaveRecipe')
+const savedRecipeRoutes = require('./routes/savedRecipes')
 
 const app = express();
 
@@ -26,7 +26,7 @@ mongoose.connect(MONGO_URI, {
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/recipes'));
-app.use('/api/savedrecipes', require('./routes/SaveRecipe'));
+app.use('/api/savedrecipes', require('./routes/savedRecipes'));
 
 app.get('/', (req, res) => res.send('API Running'));
 

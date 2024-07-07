@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Recipes from './Recipes';
 import axios from 'axios';
 
-const SaveRecipe = ({ user }) => {
+const SaveRecipe = () => {
+  const [user, setUser] = useState(null);
   const [savedRecipes, setSavedRecipes] = useState({});
 
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser);
+    }
     const storedRecipes = JSON.parse(localStorage.getItem('savedRecipes')) || {};
     setSavedRecipes(storedRecipes);
   }, []);
@@ -59,7 +64,6 @@ const SaveRecipe = ({ user }) => {
     <div>
       <Recipes
         user={user}
-        setSavedRecipes={setSavedRecipes}
         savedRecipes={savedRecipes}
         handleSaveRecipe={handleSaveRecipe}
       />

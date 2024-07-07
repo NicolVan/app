@@ -3,7 +3,7 @@ import axios from 'axios';
 import Popup from 'reactjs-popup';
 import SaveRecipeButton from './SaveRecipeButton';
 
-const Recipe = ({ user, handleSaveRecipe }) => {
+const Recipe = ({ user, savedRecipes, handleSaveRecipe }) => {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
@@ -86,9 +86,9 @@ const Recipe = ({ user, handleSaveRecipe }) => {
             {recipes.length === 0 ? (
               <p className='text-black'>Recipe not found</p>
             ) : (
-              <div className='flex flex-wrap justify-center bg-gray-100 rounded-xl text-center'>
+              <div className='flex flex-wrap justify-center rounded-xl text-center'>
                 {recipes.map((recipe, index) => (
-                  <div key={index} className='grid mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-2xl w-96 rounded-xl bg-clip-border'>
+                  <div key={index} className='grid mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-xl w-96 rounded-xl bg-clip-border border border-gray-200 '>
                     <h2 className='text-xl font-bold'>{recipe.name}</h2>
                     <p>Categories: {recipe.categories.join(', ')}</p>
                     <div>
@@ -105,10 +105,11 @@ const Recipe = ({ user, handleSaveRecipe }) => {
                       <p>Author: {recipe.author}</p>
                     </div>
                     <div>
-                      <SaveRecipeButton 
+                      <SaveRecipeButton
                         recipeId={recipe._id}
                         user={user}
                         handleSaveRecipe={handleSaveRecipe}
+                        isSaved={!!savedRecipes[recipe._id]}
                       />
                     </div>
                     <div>

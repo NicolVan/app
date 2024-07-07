@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -80,7 +80,7 @@ const SaveRecipeButton = ({ recipeId, user }) => {
     }
   };
 
-  return <button onClick={debouncedSaveRecipe} disabled={isSaved}>Save Recipe</button>;
+  return <button onClick={debouncedSaveRecipe} disabled={isSaved}>{isSaved ? 'Saved' : 'Save Recipe'}</button>;
 };
 
 export default SaveRecipeButton;
