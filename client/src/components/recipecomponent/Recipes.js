@@ -31,6 +31,11 @@ const Recipe = ({ user }) => {
     fetchRecipes();
   }, [fetchRecipes]);
 
+  useEffect(() => {
+    const savedRecipesFromLocalStorage = JSON.parse(localStorage.getItem('savedRecipes')) || {};
+    setSavedRecipes(savedRecipesFromLocalStorage);
+  }, []);
+
   const handleCategoryClick = (category) => {
     setCategories((prevCategories) => {
       if (prevCategories.includes(category)) {
@@ -47,7 +52,11 @@ const Recipe = ({ user }) => {
 
   const handleSaveRecipe = (recipeId) => {
     console.log('Saving recipe locally:', recipeId);
-    setSavedRecipes((prev) => ({ ...prev, [recipeId]: true }));
+    setSavedRecipes((prev) => {
+      const newSavedRecipes = { ...prev, [recipeId]: true };
+      localStorage.setItem('savedRecipes', JSON.stringify(newSavedRecipes));
+      return newSavedRecipes;
+    });
   };
 
   const handleUnsaveRecipe = (recipeId) => {
@@ -55,6 +64,7 @@ const Recipe = ({ user }) => {
     setSavedRecipes((prev) => {
       const newSavedRecipes = { ...prev };
       delete newSavedRecipes[recipeId];
+      localStorage.setItem('savedRecipes', JSON.stringify(newSavedRecipes));
       return newSavedRecipes;
     });
   };
