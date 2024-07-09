@@ -165,11 +165,23 @@ const Recipe = ({ user }) => {
                             </button>
                             <div className='mb-2'>
                               <h3 className='font-bold'>Ingredients: </h3>
-                              <ul className='list-disc list-inside'>
+                              <ul className='list-none'>
                                 {recipe.ingredients.map((ingredient, index) => (
-                                  <li key={index}>{ingredient.quantity} {ingredient.name}</li>
-                                ))}
-                              </ul>
+                                <li key={index} className='flex items-center space-x-2'>
+                                  <input 
+                                    type="checkbox" 
+                                    id={`ingredient-${index}`} 
+                                    name={`ingredient-${index}`} 
+                                    className='form-checkbox' 
+                                  />
+                                  <label 
+                                    htmlFor={`ingredient-${index}`} 
+                                    className='text-gray-700'>
+                                    {ingredient.quantity} {ingredient.name}
+                                  </label>
+                                </li>
+                              ))}
+                            </ul>
                             </div>
                             <div className='mb-2'>
                               <h3 className='font-bold'>Instructions: </h3>

@@ -16,9 +16,18 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Home</h1>
-      <h2>Welcome, {user.username}!</h2>
-      <button onClick={navigateToAddRecipe}>Add Recipe</button>
+      <div className='w-full h-16'>
+        <h2 className='text-2xl ml-5 mt-10'>Welcome  {user.username}!</h2>
+      </div>
+      <div className='grid grid-cols-1 divide-y divide-solid divide-gray-400 hover:divide-blue-400'>
+        <button 
+          className='ml-10 text-xl border-gray-200 w-full text-left'
+          onClick={navigateToAddRecipe}>Add Recipe</button>
+        <button
+          className='ml-10 text-xl border-gray-200 w-full text-left'
+          >Supplies
+        </button>
+      </div>
     </div>
   );
 };

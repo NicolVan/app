@@ -28,7 +28,7 @@ function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <Link to='/favorite'>Favorite</Link>
-                            <Link to='/store'>Store</Link>
+                            <Link to='/store'>Supplies</Link>
                             <Link to='/profile'>Profile</Link>
                             <button onClick={handleLogout}>Log Out</button>
                         </>
@@ -57,13 +57,13 @@ function Navbar() {
                                     <Link to='/favorite'>Favorite</Link>
                                 </li>
                                 <li>
-                                    <Link to='/profile' className='hover:text-gray-300' onClick={handleToggle}>Profile</Link>
+                                    <Link to='/supplies' className='hover:text-gray-300' onClick={handleToggle}>Supplies</Link>
                                 </li>
                                 <li>
                                     <Link to='/shop-list' className='hover:text-gray-300' onClick={handleToggle}>Shop List</Link>
                                 </li>
                                 <li>
-                                    <Link to='/supplies' className='hover:text-gray-300' onClick={handleToggle}>Supplies</Link>
+                                    <Link to='/profile' className='hover:text-gray-300' onClick={handleToggle}>Profile</Link>
                                 </li>
                                 <li>
                                     <button onClick={() => { handleLogout(); handleToggle(); }} className='hover:text-gray-300'>Log Out</button>
