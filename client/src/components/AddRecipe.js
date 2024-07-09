@@ -84,7 +84,7 @@ const AddRecipe = () => {
     <div className='bg-gray-200 h-screen'>
       <div className='border rounded-lg px-8 py-6 mx-auto max-w-2xl bg-white'>
           <h2 className='text-2xl text-center'>Share Recipe</h2>
-          <p className='mt-5 '>Name recipe:</p>
+          <p className='mt-5'>Name recipe:</p>
           {renderFormInput('Name', name, setName)}
           <p className=''>Dish type:</p>
           <select
@@ -108,10 +108,10 @@ const AddRecipe = () => {
           { renderFormInput('Image URL', imageUrl, setImageUrl)}
           <p className=''>Instruction:</p>
         <textarea 
-         placeholder='Instructions' 
+          placeholder='Instructions' 
           value={instructions} 
-         onChange={e => setInstructions(e.target.value)} 
-         className='justify-items-center text-center w-full h-96 rounded-xl border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2' 
+          onChange={e => setInstructions(e.target.value)} 
+          className='justify-items-center text-center w-full h-96 rounded-xl border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2' 
         />
         <h3 className='font-bold mb-2 text-white'>Ingredients</h3>
           {ingredients.map((ingredient, index) => (

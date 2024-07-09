@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const savedRecipeRoutes = require('./routes/savedRecipes')
+const suppliesRoutes = require('./routes/supplies')
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/savedrecipes', savedRecipeRoutes);
+app.use('/api/supplies', suppliesRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -23,10 +25,6 @@ mongoose.connect(MONGO_URI, {
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
-
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api', require('./routes/recipes'));
-app.use('/api/savedrecipes', require('./routes/savedRecipes'));
 
 app.get('/', (req, res) => res.send('API Running'));
 

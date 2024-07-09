@@ -28,7 +28,7 @@ function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <Link to='/favorite'>Favorite</Link>
-                            <Link to='/store'>Supplies</Link>
+                            <Link to='/supplies'>Supplies</Link>
                             <Link to='/profile'>Profile</Link>
                             <button onClick={handleLogout}>Log Out</button>
                         </>
