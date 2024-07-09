@@ -81,8 +81,9 @@ const AddRecipe = () => {
   };
 
   return (
-    <div className='bg-gray-200 h-screen'>
-      <div className='border rounded-lg px-8 py-6 mx-auto max-w-2xl bg-white'>
+    <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
+      <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
+        <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid text-center'>
           <h2 className='text-2xl text-center'>Share Recipe</h2>
           <p className='mt-5'>Name recipe:</p>
           {renderFormInput('Name', name, setName)}
@@ -136,7 +137,7 @@ const AddRecipe = () => {
          </button>
         </div>
       </div>
-    
+    </div>
   );
 }
 
