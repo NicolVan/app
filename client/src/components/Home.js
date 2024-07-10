@@ -9,9 +9,12 @@ const Home = () => {
   const navigateToAddRecipe = () => {
     navigate('/add-recipe');
   };
-
+ 
+  const navigateAddSupplies =() => {
+    navigate('/addsupplies');
+  }
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Please Login</div>;
   }
 
   return (
@@ -25,7 +28,7 @@ const Home = () => {
           onClick={navigateToAddRecipe}>Add Recipe</button>
         <button
           className='ml-10 text-xl border-gray-200 w-full text-left'
-          >Supplies
+          onClick={navigateAddSupplies}>Add Supplies
         </button>
       </div>
     </div>

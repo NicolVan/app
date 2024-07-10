@@ -9,7 +9,8 @@ import Register from './components/Register';
 import Home from './components/Home';
 import AddRecipe from './components/AddRecipe';
 import GetSaveRecipe from './components/GetSaveRecipe';
-import AddSupplies from './components/AddSupplies';
+import AddSupplies from './components/suplicecomponent/AddSupplies';
+import GetSupplies from './components/suplicecomponent/GetSupplies';
 
 
 
@@ -23,7 +24,8 @@ const MainContent = () => {
   return (
     <Routes>
       <Route path='/' element={<GetSaveRecipe />} />
-      <Route path='/supplies' element={<AddSupplies />} />
+      <Route path='/addsupplies' element={<AddSupplies />} />
+      <Route path='/supplies' element={<GetSupplies />} />
       <Route path='/profile' element={<Home />} />
       <Route path='/add-recipe' element={<AddRecipe />} />
       <Route path='/register' element={<Register />} />

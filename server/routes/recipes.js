@@ -2,7 +2,7 @@ const express = require('express');
 const Recipe = require('../models/Recipe');
 const router = express.Router();
 
-router.get('/recipes', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const { search, category } = req.query;
   

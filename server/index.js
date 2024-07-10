@@ -28,4 +28,39 @@ mongoose.connect(MONGO_URI, {
 
 app.get('/', (req, res) => res.send('API Running'));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+  server.setMaxListeners(50);
+
+  server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+      console.error(`Port ${PORT} is already in use`);
+      setTimeout(() => {
+        server.close();
+        server.listen(PORT, () => {
+          console.log(`Server running on port ${PORT}`);
+        });
+      }, 1000); 
+    } else {
+      console.error('Server error:', error);
+    }
+  });
+  
+  const gracefulShutdown = () => {
+    console.log('Received shutdown signal, shutting down gracefully...');
+    server.close(() => {
+      console.log('Closed out remaining connections');
+      process.exit(0);
+    });
+  
+    setTimeout(() => {
+      console.error('Could not close connections in time, forcefully shutting down');
+      process.exit(1);
+    }, 10000); 
+  };
+  
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGINT', gracefulShutdown);
+  

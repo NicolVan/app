@@ -8,6 +8,7 @@ const Component = () => {
   return (
     <div>
       <GetSaveRecipe user={user} />
+      
     </div>
   );
 };
