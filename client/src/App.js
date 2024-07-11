@@ -11,6 +11,7 @@ import AddRecipe from './components/AddRecipe';
 import GetSaveRecipe from './components/GetSaveRecipe';
 import AddSupplies from './components/suplicecomponent/AddSupplies';
 import GetSupplies from './components/suplicecomponent/GetSupplies';
+import Favorite from './components/Favorite';
 
 
 
@@ -24,6 +25,7 @@ const MainContent = () => {
   return (
     <Routes>
       <Route path='/' element={<GetSaveRecipe />} />
+      <Route path='/favorite' element = {<Favorite/>} />
       <Route path='/addsupplies' element={<AddSupplies />} />
       <Route path='/supplies' element={<GetSupplies />} />
       <Route path='/profile' element={<Home />} />

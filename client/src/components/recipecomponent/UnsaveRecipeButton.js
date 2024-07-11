@@ -50,7 +50,7 @@ const UnsaveRecipeButton = ({ recipeId, user, handleUnsaveRecipe }) => {
         }
       }; 
 
-  return <button onClick={unsaveRecipe}>Unsave</button>;
+  return <button onClick={unsaveRecipe}>★</button>;
 };
 
 export default UnsaveRecipeButton;

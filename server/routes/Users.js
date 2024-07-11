@@ -43,5 +43,4 @@ router.get('/verify', auth, (req, res) => {
   }
 });
 
-
 module.exports = router

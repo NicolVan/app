@@ -58,11 +58,34 @@ router.delete('/unsaveRecipe', auth, async (req, res) => {
   }
 });
 
-router.post('/checkSaved', async (req, res) => {
-  const { userId, recipeId } = req.body;
+router.get('/getsaverecipes', auth, async (req, res) => {
+  try {
+      const userId = req.user._id;
+      const savedRecipes = await SavedRecipe.find({ userId }).populate('recipeId');
+      res.json(savedRecipes.map(savedRecipe => ({
+          _id: savedRecipe.recipeId._id,
+          name: savedRecipe.recipeId.name,
+          imageUrl: savedRecipe.recipeId.imageUrl,
+          categories: savedRecipe.recipeId.categories, 
+          instructions: savedRecipe.recipeId.instructions,
+          ingredients: savedRecipe.recipeId.ingredients,       
+          prepTime: savedRecipe.recipeId.prepTime,
+          cookTime: savedRecipe.recipeId.cookTime,
+          servings: savedRecipe.recipeId.servings,
+          author: savedRecipe.recipeId.author
+      })));
+  } catch (error) {
+      console.error('Error fetching saved recipes:', error);
+      res.status(500).json({ error: 'Error fetching saved recipes' });
+  }
+});
 
-  if (!userId || !recipeId) {
-    return res.status(400).json({ error: 'Missing userId or recipeId' });
+router.post('/checkSaved', auth, async (req, res) => {
+  const { recipeId } = req.body;
+  const userId = req.user._id;
+
+  if (!recipeId) {
+    return res.status(400).json({ error: 'Missing recipeId' });
   }
 
   try {

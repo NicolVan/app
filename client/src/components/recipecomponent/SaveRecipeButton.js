@@ -41,7 +41,7 @@ const SaveRecipeButton = ({ recipeId, user, handleSaveRecipe }) => {
 
   const debouncedSaveRecipe = _.debounce(saveRecipe, 500);
 
-  return <button onClick={debouncedSaveRecipe}>Save Recipe</button>;
+  return <button onClick={debouncedSaveRecipe}>☆</button>;
 };
 
 export default SaveRecipeButton;

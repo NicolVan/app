@@ -32,9 +32,23 @@ const Recipe = ({ user }) => {
   }, [fetchRecipes]);
 
   useEffect(() => {
-    const savedRecipesFromLocalStorage = JSON.parse(localStorage.getItem('savedRecipes')) || {};
-    setSavedRecipes(savedRecipesFromLocalStorage);
-  }, []);
+    const fetchSavedRecipes = async () => {
+      if (user) {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/users/${user._id}/savedRecipes`);
+          const savedRecipesFromServer = response.data.reduce((acc, recipeId) => {
+            acc[recipeId] = true;
+            return acc;
+          }, {});
+          setSavedRecipes(savedRecipesFromServer);
+        } catch (error) {
+          console.error('Error fetching saved recipes:', error);
+        }
+      }
+    };
+
+    fetchSavedRecipes();
+  }, [user]);
 
   const handleCategoryClick = (category) => {
     setCategories((prevCategories) => {
@@ -54,7 +68,9 @@ const Recipe = ({ user }) => {
     console.log('Saving recipe locally:', recipeId);
     setSavedRecipes((prev) => {
       const newSavedRecipes = { ...prev, [recipeId]: true };
-      localStorage.setItem('savedRecipes', JSON.stringify(newSavedRecipes));
+      if (user) {
+        localStorage.setItem(`savedRecipes_${user._id}`, JSON.stringify(newSavedRecipes));
+      }
       return newSavedRecipes;
     });
   };
@@ -64,7 +80,9 @@ const Recipe = ({ user }) => {
     setSavedRecipes((prev) => {
       const newSavedRecipes = { ...prev };
       delete newSavedRecipes[recipeId];
-      localStorage.setItem('savedRecipes', JSON.stringify(newSavedRecipes));
+      if (user) {
+        localStorage.setItem(`savedRecipes_${user._id}`, JSON.stringify(newSavedRecipes));
+      }
       return newSavedRecipes;
     });
   };

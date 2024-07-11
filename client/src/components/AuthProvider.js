@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(false); // Loading state for login
+  const [authLoading, setAuthLoading] = useState(false); 
 
   useEffect(() => {
     const checkAuth = async () => {
