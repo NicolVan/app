@@ -57,7 +57,7 @@ const GetSupplies = () => {
                         className='justify-items-center text-center w-[700px] rounded-xl mt-5 border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
                     />
                     <p>Filter</p>
-                    <div className='grid grid-cols-4 justify-items-center mt-5'>
+                    <div className='grid grid-cols-4 gap-5 justify-items-center mt-5'>
                         {cat.map((category) => (
                             <button
                                 key={category}
@@ -75,23 +75,22 @@ const GetSupplies = () => {
                             </button>
                         ))}
                     </div>
-                    <button
-                        onClick={handleSearchSupplies}
-                        className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
-                    > Search
-                    </button>
-                </div>
-                <div className='grid'>
-                    <div className='justify-center'>
-                        {items.length === 0 ? (
+                        <button
+                            onClick={handleSearchSupplies}
+                            className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                            >Search
+                        </button>
+                    </div>
+                    <div className='grid'>
+                        <div className='justify-center'>
+                            {items.length === 0 ? (
                             <p className='text-black'>No supplies found</p>
-                        ) : (
-                            <div className='flex flex-wrap justify-center rounded-xl text-center'>
+                            ) : (
+                            <div className=''>
                                 {items.map((item) => (
                                     <div key={item._id} className='border p-4 m-2 rounded-lg'>
                                         <h3 className='font-bold'>{item.itemName}</h3>
-                                        <p>Quantity: {item.quantity}</p>
-                                        <p>Weight in {item.category}</p>
+                                        <p>Quantity: {item.quantity} {item.category}</p>
                                     </div>
                                 ))}
                             </div>

@@ -11,7 +11,7 @@ const AddSupplies = () => {
     const [category, setCategory] = useState('');
     const [foodCat, setFoodCat] = useState('');
 
-    const categories = ['ml', 'g', 'l','kg'];
+    const categories = ['ml', 'g', 'l','kg','ks'];
     const cat =  ['Vegetable','Fruit','Meat','Fish','Oil','Spice','Dairy','Pastries',
       'Cereals','Legumes','Sweets','Pasta','Seafood','Tea','Coffe'];
 
@@ -31,7 +31,7 @@ const AddSupplies = () => {
         }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
-        setMessage(`Supply ${response.data.itemName} added successfully!`);
+        setMessage(`Item ${response.data.itemName} added successfully!`);
         setItemName(''); 
         setQuantity('');
         setCategory('');
@@ -73,7 +73,7 @@ const AddSupplies = () => {
                           onChange={(e) => setCategory(e.target.value)}
                           required
                           className='w-full rounded-xl border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'>
-                            <option value="" disabled>Select category</option>
+                            <option value="" disabled>Select weight</option>
                             {categories.map(cat => (
                             <option key={cat} value={cat}>{cat}</option>
                           ))}

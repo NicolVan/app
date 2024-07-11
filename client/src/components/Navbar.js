@@ -25,10 +25,10 @@ function Navbar() {
                 </Link>
                 <div className='hidden md:flex space-x-4'>
                     <Link to='/'>Search Recipe</Link>
-                    <Link to='/supplies'>Supplies</Link>
                     {isAuthenticated ? (
                         <>
                             <Link to='/favorite'>Favorite</Link>
+                            <Link to='/supplies'>Supplies</Link>
                             <Link to='/profile'>Profile</Link>
                             <button onClick={handleLogout}>Log Out</button>
                         </>
@@ -51,13 +51,13 @@ function Navbar() {
                         <li>
                             <Link to='/' className='hover:text-gray-300' onClick={handleToggle}>Search Recipe</Link>
                         </li>
-                        <li>
-                            <Link to='/supplies' className='hover:text-gray-300' onClick={handleToggle}>Supplies</Link>
-                        </li>
                         {isAuthenticated ? (
                             <>
                                 <li>
                                     <Link to='/favorite'>Favorite</Link>
+                                </li>
+                                <li>
+                                    <Link to='/supplies' className='hover:text-gray-300' onClick={handleToggle}>Supplies</Link>
                                 </li>
                                 <li>
                                     <Link to='/shop-list' className='hover:text-gray-300' onClick={handleToggle}>Shop List</Link>
