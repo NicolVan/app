@@ -34,8 +34,8 @@ function Navbar() {
                         </>
                     ) : (
                         <>
-                            <button onClick={() => navigate('/login')}>Login</button>
-                            <Link to='/register'>Register</Link>
+                            <button onClick={() => navigate('/login')} className='text-lg font-bold hover:text-orange-500'>Login</button>
+                            <Link to='/register' className='text-lg font-bold hover:text-orange-500'>Register</Link>
                         </>
                     )}
                 </div>

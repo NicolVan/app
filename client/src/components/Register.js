@@ -40,12 +40,8 @@ const Register = () => {
     >
       {({ isSubmitting, errors }) => (
         <Form>
-          <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
+          <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
             <div className='relative py-3 sm:max-w-xl sm:mx-auto'>
-              <div>
-                <img src='https://i.pinimg.com/564x/ce/a4/69/cea469e06b6c364991c959be9a51aa18.jpg' alt='fruit'
-                  className='absolute inset-0 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl w-96 h-full' />
-              </div>
               <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
                 <div className='max-w-md mx-auto'>
                   <div>
@@ -105,7 +101,7 @@ const Register = () => {
                         {errors.submit && <div className='text-red-600 text-sm'>{errors.submit}</div>}
                         <button
                           type='submit'
-                          className='bg-cyan-500 text-white rounded-md px-2 py-1'
+                          className='bg-orange-300 text-white rounded-md px-2 py-1 hover:bg-orange-500' 
                           disabled={isSubmitting}
                         >Register
                         </button>

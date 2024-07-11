@@ -42,12 +42,8 @@ const Login = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
+          <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
             <div className='relative py-3 sm:max-w-xl sm:mx-auto'>
-              <div>
-              <img src='https://i.pinimg.com/564x/60/28/25/6028251079394f6e780b0d0686dac5bd.jpg'alt='fruit' 
-              className='absolute inset-0 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl  w-96 h-full'></img>
-              </div>
               <div className='relative px-4 py-10 bg-white shadow-lg -skew-y-0 sm:skew-y-9 sm:-rotate-0 sm:rounded-3xl sm:p-20'>
                 <div className='max-w-md mx-auto'>
                   <div>
@@ -92,7 +88,7 @@ const Login = () => {
                       <div className='relative'>
                         <button
                           type='submit'
-                          className='bg-cyan-500 text-white rounded-md px-2 py-1'
+                          className='bg-orange-300 text-white rounded-md px-2 py-1 hover:bg-orange-500' 
                           disabled={isSubmitting}
                         >
                           Submit

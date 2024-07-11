@@ -18,8 +18,17 @@ const Home = () => {
   const navigateAddSupplies =() => {
     navigate('/addsupplies');
   }
+
   if (!user) {
-    return <div>Please Login</div>;
+    return <div>
+      <div className='h-screen bg-orange-100 py-6 flex justify-center sm:py-12'>
+        <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 h-[500px] w-[800px]'>
+            <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid text-center'>
+              <p className='text-2xl font-bold mb-4'> Please Login</p>
+            </div>
+          </div>
+        </div>
+      </div>;
   }
  const navigateToFavorite = () => {
   navigate('/favorite');
@@ -33,7 +42,7 @@ const Home = () => {
       <div className='h-screen bg-orange-100 py-6 flex justify-center sm:py-12'>
           <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 h-[500px] w-[800px]'>
               <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid text-center'>
-        <h2 className='text-2xl ml-5'>Welcome  {user.username}!</h2>
+        <h2 className='text-2xl font-bold mb-4'>Welcome  {user.username}!</h2>
       </div>
       <div className='grid grid-cols-1'>
         <button 
