@@ -88,7 +88,7 @@ const Recipe = ({ user }) => {
   };
 
   return (
-    <div className='min-h-screen bg-green-100 py-6 flex flex-col justify-center sm:py-12'>
+    <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
       <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
         <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid text-center'>
           <h1 className='text-2xl font-bold mb-4'>Recipes</h1>
@@ -105,9 +105,9 @@ const Recipe = ({ user }) => {
                 key={category}
                 onClick={() => handleCategoryClick(category)}
                 style={{
-                  backgroundColor: categories.includes(category) ? 'lightgray' : 'white',
+                  backgroundColor: categories.includes(category) ? 'orange' : 'white',
                 }}
-                className='grid items-center justify-center py-2.5 w-32 h-48 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                className='grid items-center justify-center py-2.5 w-32 h-48 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-orange-500 hover:text-orange-300 focus:z-10 focus:ring-4 focus:ring-gray-100'
               >
                 <img
                   src={`picture/${category.toLowerCase().replace(/ /g, '_')}.jpg`}
@@ -120,7 +120,7 @@ const Recipe = ({ user }) => {
           </div>
           <button 
             onClick={handleSearch}
-            className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+            className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100'
           >
             Search
           </button>
@@ -165,7 +165,7 @@ const Recipe = ({ user }) => {
                     </div>
                     <div>
                       <button
-                        className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                        className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100'
                         onClick={() => setOpenPopupIndex(index)}
                       >
                         Show Recipe

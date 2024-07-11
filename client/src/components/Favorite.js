@@ -50,6 +50,7 @@ const Favorite = () => {
   const handleShowRecipe = (index) => {
       setOpenPopupIndex(index);
   };
+
     return (
       <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
           <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
@@ -61,7 +62,7 @@ const Favorite = () => {
                     placeholder='Search by name'
                     value={nameFilter}
                         onChange={handleNameFilterChange}
-                        className='justify-items-center text-center w-[700px] rounded-xl mt-5 border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
+                        className='justify-items-center text-center w-[700px] rounded-xl mt-5 border-0 py-1.5 pl-8 text-orange-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
                      />
                     
                     <div className='grid grid-cols-5 gap-5 justify-items-center mt-5'>
@@ -70,9 +71,9 @@ const Favorite = () => {
                         key={category}
                         onClick={() => handleCategoryClick(category)}
                         style={{
-                            backgroundColor: categoryFilter === category ? 'lightgray' : 'white',
+                            backgroundColor: categoryFilter === category ? 'orange' : 'white',
                         }}
-                        className='grid items-center justify-center py-2.5 w-32 h-48 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                        className='grid items-center justify-center py-2.5 w-32 h-48 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-orange-500 focus:z-10 focus:ring-4 focus:ring-gray-100'
                     >
                         <img
                             src={`picture/${category.toLowerCase().replace(/ /g, '_')}.jpg`}
@@ -102,12 +103,12 @@ const Favorite = () => {
                                   </div>
                                   <div>
                                       <button
-                                          className='w-32 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-4 focus:ring-gray-100'
+                                          className='w-32 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:ring-4 focus:ring-gray-100'
                                           onClick={() => handleShowRecipe(index)}
                                       >
                                           Show Recipe
                                       </button>
-                                      {openPopupIndex === index && (
+                                        {openPopupIndex === index && (
                                           <>
                                               <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
                                               <Popup open={true} onClose={() => setOpenPopupIndex(null)}>

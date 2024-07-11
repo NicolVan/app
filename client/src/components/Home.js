@@ -5,7 +5,7 @@ import { AuthContext } from './AuthProvider';
 const Home = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   
   const handleLogout = () => {
       logout();

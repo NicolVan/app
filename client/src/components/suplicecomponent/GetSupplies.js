@@ -57,16 +57,15 @@ const GetSupplies = () => {
                         onChange={(e) => setSearch(e.target.value)}
                         className='justify-items-center text-center w-[700px] rounded-xl mt-5 border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-200 sm:text-sm sm:leading-6'
                     />
-                    <p>Filter</p>
                     <div className='grid grid-cols-4 gap-5 justify-items-center mt-5'>
                         {cat.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => handleCategoryClick(category)}
                                 style={{
-                                    backgroundColor: categories.includes(category) ? 'lightgray' : 'white',
+                                    backgroundColor: categories.includes(category) ? 'orange' : 'white',
                                 }}
-                                className='grid items-center justify-center py-2.5 w-24 h-32 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                                className='grid items-center justify-center py-2.5 w-24 h-32 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-orange-500 focus:z-10 focus:ring-4 focus:ring-gray-100'
                                 ><img
                                     src={`food/${category.toLowerCase().replace(/ /g, '_')}.jpg`}
                                     alt={category}
@@ -78,7 +77,7 @@ const GetSupplies = () => {
                     </div>
                         <button
                             onClick={handleSearchSupplies}
-                            className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                            className='w-60 h-10 mt-2 mb-2 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100'
                             >Search
                         </button>
                     </div>
