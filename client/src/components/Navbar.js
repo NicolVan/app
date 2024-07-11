@@ -24,13 +24,13 @@ function Navbar() {
                     <img src={logo} alt='logo' className='w-20 h-20' />
                 </Link>
                 <div className='hidden md:flex space-x-4'>
-                    <Link to='/'>Search Recipe</Link>
+                    <Link to='/' className='text-lg font-bold hover:text-orange-500'>Search Recipe</Link>
                     {isAuthenticated ? (
                         <>
-                            <Link to='/favorite'>Favorite</Link>
-                            <Link to='/supplies'>Supplies</Link>
-                            <Link to='/profile'>Profile</Link>
-                            <button onClick={handleLogout}>Log Out</button>
+                            <Link to='/favorite' className='text-lg font-bold hover:text-orange-500'>Favorite</Link>
+                            <Link to='/supplies' className='text-lg font-bold hover:text-orange-500'>Supplies</Link>
+                            <Link to='/profile' className='text-lg font-bold hover:text-orange-500'>Profile</Link>
+                            <button onClick={handleLogout} className='text-lg font-bold hover:text-orange-500'>Log Out</button>
                         </>
                     ) : (
                         <>
@@ -49,33 +49,33 @@ function Navbar() {
                 <div className='md:hidden'>
                     <ul className='grid justify-items-center space-y-4 py-4'>
                         <li>
-                            <Link to='/' className='hover:text-gray-300' onClick={handleToggle}>Search Recipe</Link>
+                            <Link to='/' className='hover:text-orange-500' onClick={handleToggle}>Search Recipe</Link>
                         </li>
                         {isAuthenticated ? (
                             <>
                                 <li>
-                                    <Link to='/favorite'>Favorite</Link>
+                                    <Link to='/favorite' className='hover:text-orange-500' onClick={handleToggle}>Favorite</Link>
                                 </li>
                                 <li>
-                                    <Link to='/supplies' className='hover:text-gray-300' onClick={handleToggle}>Supplies</Link>
+                                    <Link to='/supplies' className='hover:text-orange-500' onClick={handleToggle}>Supplies</Link>
                                 </li>
                                 <li>
-                                    <Link to='/shop-list' className='hover:text-gray-300' onClick={handleToggle}>Shop List</Link>
+                                    <Link to='/shop-list' className='hover:text-orange-500' onClick={handleToggle}>Shop List</Link>
                                 </li>
                                 <li>
-                                    <Link to='/profile' className='hover:text-gray-300' onClick={handleToggle}>Profile</Link>
+                                    <Link to='/profile' className='hover:text-orange-500' onClick={handleToggle}>Profile</Link>
                                 </li>
                                 <li>
-                                    <button onClick={() => { handleLogout(); handleToggle(); }} className='hover:text-gray-300'>Log Out</button>
+                                    <button onClick={() => { handleLogout(); handleToggle(); }} className='hover:text-orange-500'>Log Out</button>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li>
-                                    <Link to='/register' className='hover:text-gray-300' onClick={handleToggle}>Sign Up</Link>
+                                    <Link to='/register' className='hover:text-orange-500' onClick={handleToggle}>Sign Up</Link>
                                 </li>
                                 <li>
-                                    <Link to='/login' className='hover:text-gray-300' onClick={handleToggle}>Log In</Link>
+                                    <Link to='/login' className='hover:text-orange-500' onClick={handleToggle}>Log In</Link>
                                 </li>
                             </>
                         )}

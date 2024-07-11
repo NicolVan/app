@@ -59,26 +59,30 @@ router.delete('/unsaveRecipe', auth, async (req, res) => {
 });
 
 router.get('/getsaverecipes', auth, async (req, res) => {
-  try {
-      const userId = req.user._id;
-      const savedRecipes = await SavedRecipe.find({ userId }).populate('recipeId');
-      res.json(savedRecipes.map(savedRecipe => ({
-          _id: savedRecipe.recipeId._id,
-          name: savedRecipe.recipeId.name,
-          imageUrl: savedRecipe.recipeId.imageUrl,
-          categories: savedRecipe.recipeId.categories, 
-          instructions: savedRecipe.recipeId.instructions,
-          ingredients: savedRecipe.recipeId.ingredients,       
-          prepTime: savedRecipe.recipeId.prepTime,
-          cookTime: savedRecipe.recipeId.cookTime,
-          servings: savedRecipe.recipeId.servings,
-          author: savedRecipe.recipeId.author
-      })));
-  } catch (error) {
-      console.error('Error fetching saved recipes:', error);
-      res.status(500).json({ error: 'Error fetching saved recipes' });
-  }
+    try {
+        const userId = req.user._id;
+
+        const savedRecipes = await SavedRecipe.find({ userId });
+
+        const recipeIds = savedRecipes.map(savedRecipe => savedRecipe.recipeId);
+
+        const filter = {};
+        if (req.query.categories) {
+            filter.categories = { $in: req.query.categories.split(',') };
+        }
+        if (req.query.name) {
+            filter.name = { $regex: new RegExp(req.query.name, 'i') };
+        }
+
+        const recipes = await Recipe.find({ _id: { $in: recipeIds }, ...filter });
+
+        res.json(recipes); 
+    } catch (error) {
+        console.error('Error fetching saved recipes:', error);
+        res.status(500).json({ error: 'Error fetching saved recipes' });
+    }
 });
+
 
 router.post('/checkSaved', auth, async (req, res) => {
   const { recipeId } = req.body;

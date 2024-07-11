@@ -46,7 +46,7 @@ const GetSupplies = () => {
     };
 
     return (
-        <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
+        <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
             <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
                 <div className='rounded-lg px-8 py-6 mx-auto my-8 max-w-3xl grid text-center'>
                     <h2 className='text-2xl font-bold mb-4'>Supplies</h2>
@@ -66,11 +66,11 @@ const GetSupplies = () => {
                                 style={{
                                     backgroundColor: categories.includes(category) ? 'lightgray' : 'white',
                                 }}
-                                className='grid items-center justify-center py-2.5 w-32 h-48 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
+                                className='grid items-center justify-center py-2.5 w-24 h-32 text-center text-sm font-medium text-gray-900 focus:outline-none rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100'
                                 ><img
                                     src={`food/${category.toLowerCase().replace(/ /g, '_')}.jpg`}
                                     alt={category}
-                                    className='w-full h-32 object-cover object-center rounded-lg mr-4'
+                                    className='w-full h-24 object-cover object-center rounded-lg mr-4'
                                     />
                                 {category}
                             </button>
