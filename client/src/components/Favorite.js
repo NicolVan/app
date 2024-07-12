@@ -8,36 +8,39 @@ const Favorite = () => {
   const [nameFilter, setNameFilter] = useState('');
   const categories = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
 
-  const fetchSavedRecipes = async () => {
-      try {
-          const queryParams = new URLSearchParams();
-          if (categoryFilter) {
-              queryParams.append('categories', categoryFilter);
-          }
-          if (nameFilter) {
-              queryParams.append('name', nameFilter);
-          }
-
-          const response = await fetch(`http://localhost:5000/api/savedrecipes/getsaverecipes?${queryParams.toString()}`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('token')}`
-              }
-          });
-          if (!response.ok) {
-              throw new Error('Failed to fetch saved recipes');
-          }
-          const data = await response.json();
-          setSavedRecipes(data);
-      } catch (error) {
-          console.error('Error fetching saved recipes:', error);
-      }
-  };
-
   useEffect(() => {
-      fetchSavedRecipes();
-  }, [categoryFilter, nameFilter]);
+    const fetchSavedRecipes = async () => {
+      try {
+        const queryParams = new URLSearchParams();
+        if (categoryFilter) {
+          queryParams.append('categories', categoryFilter);
+        }
+        if (nameFilter) {
+          queryParams.append('name', nameFilter);
+        }
+  
+        const response = await fetch(`http://localhost:5000/api/savedrecipes/getsaverecipes?${queryParams.toString()}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch saved recipes');
+        }
+  
+        const data = await response.json();
+        setSavedRecipes(data);
+      } catch (error) {
+        console.error('Error fetching saved recipes:', error);
+      }
+    };
+  
+    fetchSavedRecipes();
+  }, [categoryFilter, nameFilter]); 
+  
 
   const handleCategoryClick = (category) => {
     setCategoryFilter(category === categoryFilter ? '' : category);

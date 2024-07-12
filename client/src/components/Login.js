@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
-  
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
@@ -14,25 +14,34 @@ const Login = () => {
     email: '',
     password: ''
   };
-
+  
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Email is required'),
     password: Yup.string().required('Password is required')
   });
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = async (values, { setSubmitting, setFieldError }) => {
     console.log('Submitting login form with values:', values); 
     try {
       await login(values.email, values.password);
       const token = localStorage.getItem('token');
-      console.log('Token after login:', token); 
-      navigate('/profile'); 
+      if (token) {
+        navigate('/profile');
+      } else {setFieldError('email', 'Login failed. Please try again. Enter a correct email or password');}
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
       setSubmitting(false);
     }
   };
+
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+
+  const errorMessage = (error) => {
+    console.log(error);
+  };;
 
   return (
     <Formik
@@ -93,6 +102,9 @@ const Login = () => {
                         >
                           Submit
                         </button>
+                      </div>
+                      <div>
+                          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
                       </div>
                     </div>
                   </div>

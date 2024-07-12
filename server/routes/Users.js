@@ -21,11 +21,11 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Enter the correct email' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Enter the correct password' });
     }
     const token = jwt.sign({ user: { id: user._id } }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user: { _id: user._id, email: user.email, username: user.username } });

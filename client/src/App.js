@@ -13,8 +13,6 @@ import AddSupplies from './components/suplicecomponent/AddSupplies';
 import GetSupplies from './components/suplicecomponent/GetSupplies';
 import Favorite from './components/Favorite';
 
-
-
 const MainContent = () => {
   const { loading } = useContext(AuthContext);
 
