@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
  
 const UserSchema = new Schema({
     username: { type: String, required: true, unique: true },
+    googleId: { type: String, unique: true, sparse: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     savedRecipes: [{ type: Schema.Types.ObjectId, ref: 'SavedRecipe' }],

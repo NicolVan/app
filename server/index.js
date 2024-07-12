@@ -2,13 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-
+const { OAuth2Client } = require('google-auth-library');
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const savedRecipeRoutes = require('./routes/savedRecipes')
 const suppliesRoutes = require('./routes/supplies')
 
 const app = express();
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 app.use(cors());
 app.use(express.json());

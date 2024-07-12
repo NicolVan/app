@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './app/store';
-import { AuthProvider, AuthContext } from './components/AuthProvider';
+import { AuthProvider} from './components/AuthProvider';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -12,14 +12,9 @@ import GetSaveRecipe from './components/GetSaveRecipe';
 import AddSupplies from './components/suplicecomponent/AddSupplies';
 import GetSupplies from './components/suplicecomponent/GetSupplies';
 import Favorite from './components/Favorite';
+import CompleteRegistration from './components/CompleteRegistration';
 
 const MainContent = () => {
-  const { loading } = useContext(AuthContext);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Routes>
       <Route path='/' element={<GetSaveRecipe />} />
@@ -30,9 +25,11 @@ const MainContent = () => {
       <Route path='/add-recipe' element={<AddRecipe />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/complete-registration'element={<CompleteRegistration />} />
     </Routes>
   );
 };
+
 
 function App() {
   return (

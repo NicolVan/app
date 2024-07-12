@@ -6,8 +6,7 @@ const auth = require('../middleware/auth');
 const { OAuth2Client } = require('google-auth-library');
 
 const router = express.Router();
-const CLIENT_ID ='383604934861-mjpm6vpkbla7bsj3d8t7oqu1v2u695ln.apps.googleusercontent.com';
-const client = new OAuth2Client(CLIENT_ID);
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 router.post('/register', async (req, res) => {
   const {username, email, password } = req.body;
@@ -83,40 +82,47 @@ router.get('/verify', auth, (req, res) => {
   }
 });
 
-async function verifyGoogleToken(token) {
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    return payload; 
-  } catch (error) {
-    console.error('Error verifying Google token:', error);
-    throw new Error('Failed to verify Google token');
-  }
-}
+const verifyGoogleToken = async (token) => {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.CLIENT_ID,
+  });
+  return ticket.getPayload();
+};
 
+// Google login route
 router.post('/google-login', async (req, res) => {
   const { token } = req.body;
 
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' });
+  }
+
   try {
     const googleUser = await verifyGoogleToken(token);
-    const { email } = googleUser;
+    const { email, name, sub: googleId } = googleUser;
 
     let user = await User.findOne({ email });
 
     if (!user) {
-      const newUser = new User({
-        username: googleUser.name,
-        email: googleUser.email,
-        password: await bcrypt.hash(Math.random().toString(36).slice(-8), 10),
+      const dummyPassword = await bcrypt.hash('dummyPassword', 10);
+      user = new User({
+        email,
+        googleId,
+        username: name,
+        password: dummyPassword,
       });
-      user = await newUser.save();
+      await user.save();
     }
 
     const payload = { user: { id: user._id } };
     const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Add token only if it doesn't already exist
+    if (!user.tokens.some((t) => t.token === jwtToken)) {
+      user.tokens.push({ token: jwtToken });
+      await user.save();
+    }
 
     res.json({
       token: jwtToken,
@@ -124,10 +130,48 @@ router.post('/google-login', async (req, res) => {
         _id: user._id,
         email: user.email,
         username: user.username,
+        tokens: user.tokens,
       },
     });
   } catch (error) {
-    console.error('Error with Google Sign-In:', error);
+    console.error('Error with Google Sign-In:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Complete registration route
+router.post('/complete-registration', auth, async (req, res) => {
+  const { userId, username } = req.body;
+
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.username = username;
+    await user.save();
+
+    const payload = { user: { id: user._id } };
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Add token only if it doesn't already exist
+    if (!user.tokens.some((t) => t.token === jwtToken)) {
+      user.tokens.push({ token: jwtToken });
+      await user.save();
+    }
+
+    res.json({
+      token: jwtToken,
+      user: {
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        tokens: user.tokens,
+      },
+    });
+  } catch (error) {
+    console.error('Error completing registration:', error.message);
     res.status(500).json({ message: 'Server error' });
   }
 });

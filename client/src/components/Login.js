@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
 import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
 
   const initialValues = {
     email: '',
@@ -35,13 +37,30 @@ const Login = () => {
     }
   };
 
-  const responseMessage = (response) => {
-    console.log(response);
+  const responseMessage = async (response) => {
+    const { credential } = response;
+
+    if (credential) {
+      try {
+        const res = await axios.post('http://localhost:5000/api/auth/google-login', { token: credential });
+        console.log('Server Response:', res.data);
+
+        localStorage.setItem('token', res.data.token);
+
+
+        
+          console.log('Google login successful. Redirecting to /profile...');
+          navigate('/profile');
+        
+      } catch (error) {
+        console.error('Google login failed:', error.response ? error.response.data : error.message);
+      }
+    }
   };
 
   const errorMessage = (error) => {
-    console.log(error);
-  };;
+    console.error('Google login error:', error);
+  };
 
   return (
     <Formik
@@ -118,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login
