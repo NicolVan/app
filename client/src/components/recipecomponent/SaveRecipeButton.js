@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-
+import { API_URL } from '../constants'
 const SaveRecipeButton = ({ recipeId, user, handleSaveRecipe }) => {
 
   const saveRecipe = async () => {
@@ -14,7 +14,7 @@ const SaveRecipeButton = ({ recipeId, user, handleSaveRecipe }) => {
     console.log('Saving recipe with payload:', payload);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/savedrecipes/saveRecipe', payload, {
+      const response = await axios.post(`${ API_URL }/savedrecipes/saveRecipe`, payload, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },

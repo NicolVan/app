@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Recipes from './Recipes';
 import axios from 'axios';
+import { API_URL } from '../constants'
 
 const SaveRecipe = () => {
   const [user, setUser] = useState(null);
@@ -24,7 +25,7 @@ const SaveRecipe = () => {
     try {
       const payload = { userId: user._id, recipeId };
       console.log('Saving recipe with payload:', payload);
-      const response = await axios.post('http://localhost:5000/api/savedrecipes/saveRecipe', payload, {
+      const response = await axios.post(`${ API_URL }/savedrecipes/saveRecipe`, payload, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -69,7 +70,7 @@ const SaveRecipe = () => {
     try {
       const payload = { recipeId };
       console.log('Unsaving recipe with payload:', payload);
-      const response = await axios.delete('http://localhost:5000/api/savedrecipes/unsaveRecipe', {
+      const response = await axios.delete(`${ API_URL }/savedrecipes/unsaveRecipe`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },

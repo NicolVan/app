@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
+import { API_URL } from './constants';
 
 const Favorite = () => {
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -19,7 +20,7 @@ const Favorite = () => {
           queryParams.append('name', nameFilter);
         }
   
-        const response = await fetch(`http://localhost:5000/api/savedrecipes/getsaverecipes?${queryParams.toString()}`, {
+        const response = await fetch(`${ API_URL }/savedrecipes/getsaverecipes?${queryParams.toString()}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

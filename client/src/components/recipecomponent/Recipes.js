@@ -3,6 +3,7 @@ import axios from 'axios';
 import Popup from 'reactjs-popup';
 import SaveRecipeButton from './SaveRecipeButton';
 import UnsaveRecipeButton from './UnsaveRecipeButton';
+import { API_URL } from '../constants'
 
 const Recipe = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
@@ -14,7 +15,7 @@ const Recipe = ({ user }) => {
 
   const fetchRecipes = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/recipes', {
+      const response = await axios.get(`${ API_URL }/recipes`, {
         params: {
           search,
           category: categories.join(','),
@@ -35,7 +36,7 @@ const Recipe = ({ user }) => {
     const fetchSavedRecipes = async () => {
       if (user) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/savedRecipes/getsaverecipes?${user._id}`,{
+          const response = await axios.get(`${ API_URL }/savedRecipes/getsaverecipes?${user._id}`,{
             headers:{
               'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }});
@@ -178,7 +179,7 @@ const Recipe = ({ user }) => {
                         Show Recipe
                       </button>
                       {openPopupIndex === index && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+                        <div className='fixed inset-0 bg-black bg-opacity-50 z-40'></div>
                       )}
                       <Popup open={openPopupIndex === index} modal onClose={() => setOpenPopupIndex(null)}>
                         <div className='relative p-4 h-[900px] w-[700px] bg-gray-100 overflow-scroll shadow-xl rounded-lg'>
@@ -194,7 +195,7 @@ const Recipe = ({ user }) => {
                                 {recipe.ingredients.map((ingredient, index) => (
                                 <li key={index} className='flex items-center space-x-2'>
                                   <input 
-                                    type="checkbox" 
+                                    type='checkbox' 
                                     id={`ingredient-${index}`} 
                                     name={`ingredient-${index}`} 
                                     className='form-checkbox' 

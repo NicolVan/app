@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { API_URL } from '../constants'
 
 const UnsaveRecipeButton = ({ recipeId, user, handleUnsaveRecipe }) => {
   const unsaveRecipe = async () => {
@@ -13,7 +14,7 @@ const UnsaveRecipeButton = ({ recipeId, user, handleUnsaveRecipe }) => {
 
     try {
       const response = await axios.request({
-        url: 'http://localhost:5000/api/savedrecipes/unsaveRecipe',
+        url: `${ API_URL }/savedrecipes/unsaveRecipe`,
         method: 'DELETE',
         data: payload,
         headers: {

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from '../AuthProvider';
+import { API_URL } from '../constants'
 
 const GetSupplies = () => {
     const [items, setItems] = useState([]);
@@ -13,7 +14,7 @@ const GetSupplies = () => {
     const fetchSupplies = useCallback(async () => {
         if (!user) return;
         try {
-            const response = await axios.get('http://localhost:5000/api/supplies/getsupplies', {
+            const response = await axios.get(`${ API_URL }/supplies/getsupplies`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 params: {
                     search,

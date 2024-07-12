@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthProvider';
 import { useContext } from 'react';
+import { API_URL } from '../constants'
 
 const AddSupplies = () => {
     const [itemName, setItemName] = useState('');
@@ -22,7 +23,7 @@ const AddSupplies = () => {
           return;
       }
     try {
-        const response = await axios.post(`http://localhost:5000/api/supplies/saveSupplies`, {
+        const response = await axios.post(`${ API_URL }/supplies/saveSupplies`, {
           userId: user._id, 
           itemName,
           quantity,
@@ -50,7 +51,7 @@ const AddSupplies = () => {
                     <div>
                         <label>Item Name:</label>
                         <input
-                            type="text"
+                            type='text'
                             value={itemName}
                             onChange={(e) => setItemName(e.target.value)}
                             required
@@ -60,7 +61,7 @@ const AddSupplies = () => {
                     <div>
                         <label>Quantity:</label>
                         <input
-                            type="number"
+                            type='number'
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
                             required
@@ -86,13 +87,13 @@ const AddSupplies = () => {
                           onChange={(e) => setFoodCat(e.target.value)}
                           required
                           className='w-full rounded-xl border-0 py-1.5 pl-8 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'>
-                            <option value="" disabled>Select category</option>
+                            <option value='' disabled>Select category</option>
                             {cat.map(c => (
                             <option key={c} value={c}>{c}</option>
                           ))}
                         </select>
                     </div>
-                    <button type="submit" 
+                    <button type='submit' 
                         className='justify-center w-40 h-10 text-center me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
                         >Add Supply</button>
                     </form>
