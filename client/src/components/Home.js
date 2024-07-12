@@ -25,7 +25,9 @@ const Home = () => {
  const navigateToSupplies=()=> {
   navigate('/supplies');
  }
-
+ if (!user) {
+  return <div>Please log in to access this page.</div>;
+}
   return (
     <div>
       <div className='h-screen bg-orange-100 py-6 flex justify-center sm:py-12'>

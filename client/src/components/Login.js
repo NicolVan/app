@@ -9,8 +9,8 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
-  const { setUser } = useContext(AuthContext);
+  const { login, setIsAuthenticated  } = useContext(AuthContext);
+  
 
   const initialValues = {
     email: '',
@@ -36,7 +36,6 @@ const Login = () => {
       setSubmitting(false);
     }
   };
-
   const responseMessage = async (response) => {
     const { credential } = response;
 
@@ -44,13 +43,11 @@ const Login = () => {
       try {
         const res = await axios.post('http://localhost:5000/api/auth/google-login', { token: credential });
         console.log('Server Response:', res.data);
-
-        localStorage.setItem('token', res.data.token);
-
-
-        
-          console.log('Google login successful. Redirecting to /profile...');
-          navigate('/profile');
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        setIsAuthenticated(true);
+        console.log('Google login successful. Redirecting to /profile...');
+        navigate('/profile');
         
       } catch (error) {
         console.error('Google login failed:', error.response ? error.response.data : error.message);
