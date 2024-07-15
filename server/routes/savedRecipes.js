@@ -58,32 +58,33 @@ router.delete('/unsaveRecipe', auth, async (req, res) => {
   }
 });
 
-
 router.get('/getsaverecipes', auth, async (req, res) => {
-    try {
-        const userId = req.user._id;
+  try {
+      const userId = req.query.userId;
 
-        const savedRecipes = await SavedRecipe.find({ userId });
+      if (!userId || userId === 'null') {
+          return res.status(400).json({ error: 'User ID is required' });
+      }
 
-        const recipeIds = savedRecipes.map(savedRecipe => savedRecipe.recipeId);
+      const savedRecipes = await SavedRecipe.find({ userId });
+      const recipeIds = savedRecipes.map(savedRecipe => savedRecipe.recipeId);
 
-        const filter = {};
-        if (req.query.categories) {
-            filter.categories = { $in: req.query.categories.split(',') };
-        }
-        if (req.query.name) {
-            filter.name = { $regex: new RegExp(req.query.name, 'i') };
-        }
+      const filter = {};
+      if (req.query.categories) {
+          filter.categories = { $in: req.query.categories.split(',') };
+      }
+      if (req.query.name) {
+          filter.name = { $regex: new RegExp(req.query.name, 'i') };
+      }
 
-        const recipes = await Recipe.find({ _id: { $in: recipeIds }, ...filter });
+      const recipes = await Recipe.find({ _id: { $in: recipeIds }, ...filter });
 
-        res.json(recipes); 
-    } catch (error) {
-        console.error('Error fetching saved recipes:', error);
-        res.status(500).json({ error: 'Error fetching saved recipes' });
-    }
+      res.json(recipes);
+  } catch (error) {
+      console.error('Error fetching saved recipes:', error);
+      res.status(500).json({ error: 'Error fetching saved recipes' });
+  }
 });
-
 
 router.post('/checkSaved', auth, async (req, res) => {
   const { recipeId } = req.body;

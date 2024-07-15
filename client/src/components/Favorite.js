@@ -1,47 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import { API_URL } from './constants';
+import UnsaveRecipeButton from './recipecomponent/UnsaveRecipeButton';
+import { AuthContext } from './AuthProvider';
+
 
 const Favorite = () => {
-  const [savedRecipes, setSavedRecipes] = useState([]);
-  const [openPopupIndex, setOpenPopupIndex] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [nameFilter, setNameFilter] = useState('');
-  const categories = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
+    const { user } = useContext(AuthContext);
+    const [savedRecipes, setSavedRecipes] = useState([]);
+    const [openPopupIndex, setOpenPopupIndex] = useState(null);
+    const [categoryFilter, setCategoryFilter] = useState('');
+    const [nameFilter, setNameFilter] = useState('');
+    const categories = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
 
-  useEffect(() => {
-    const fetchSavedRecipes = async () => {
-      try {
-        const queryParams = new URLSearchParams();
-        if (categoryFilter) {
-          queryParams.append('categories', categoryFilter);
-        }
-        if (nameFilter) {
-          queryParams.append('name', nameFilter);
-        }
-  
-        const response = await fetch(`${ API_URL }/savedrecipes/getsaverecipes?${queryParams.toString()}`, {
+    useEffect(() => {
+        const fetchSavedRecipes = async () => {
+        const userId = user?._id
+        try {
+         const queryParams = new URLSearchParams();
+         queryParams.append('userId', userId);
+         if (categoryFilter) {
+           queryParams.append('categories', categoryFilter);
+         }
+         if (nameFilter) {
+           queryParams.append('name', nameFilter);
+         }
+
+        const response = await fetch(`${API_URL}/savedrecipes/getsaverecipes?${queryParams}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
-  
+
         if (!response.ok) {
           throw new Error('Failed to fetch saved recipes');
         }
-  
+
         const data = await response.json();
         setSavedRecipes(data);
       } catch (error) {
         console.error('Error fetching saved recipes:', error);
       }
     };
-  
+
     fetchSavedRecipes();
-  }, [categoryFilter, nameFilter]); 
-  
+  }, [categoryFilter, nameFilter])
 
   const handleCategoryClick = (category) => {
     setCategoryFilter(category === categoryFilter ? '' : category);
@@ -54,6 +59,18 @@ const Favorite = () => {
   const handleShowRecipe = (index) => {
       setOpenPopupIndex(index);
   };
+
+  const handleUnsaveRecipe = (recipeId) => {
+    console.log('Unsaving recipe locally:', recipeId);
+    setSavedRecipes((prev) => {
+        const updatedRecipes = prev.filter(recipe => recipe._id !== recipeId); 
+        if (user) {
+            localStorage.setItem(`savedRecipes_${user._id}`, JSON.stringify(updatedRecipes));
+        }
+        return updatedRecipes; 
+    });
+};
+  
 
     return (
       <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
@@ -109,9 +126,13 @@ const Favorite = () => {
                                       <button
                                           className='w-32 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:ring-4 focus:ring-gray-100'
                                           onClick={() => handleShowRecipe(index)}
-                                      >
-                                          Show Recipe
+                                      > Show Recipe
                                       </button>
+                                      <UnsaveRecipeButton 
+                                        recipeId={recipe._id}
+                                        user={user}
+                                        handleUnsaveRecipe={handleUnsaveRecipe}
+                                    />
                                         {openPopupIndex === index && (
                                           <>
                                               <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>

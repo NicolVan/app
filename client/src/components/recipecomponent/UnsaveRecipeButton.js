@@ -34,6 +34,10 @@ const UnsaveRecipeButton = ({ recipeId, user, handleUnsaveRecipe }) => {
 
   const unsaveRecipeLocally = (recipeId) => {
     let savedRecipes = JSON.parse(localStorage.getItem('savedRecipes')) || [];
+    if (!Array.isArray(savedRecipes)) {
+      savedRecipes = []; 
+    }
+  
     if (savedRecipes.includes(recipeId)) {
       savedRecipes = savedRecipes.filter(id => id !== recipeId);
       localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));

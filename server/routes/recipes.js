@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     }
   });
 
-router.post('/recipes', async (req, res) => {
+router.post('/addrecipes', async (req, res) => {
     try {
         const { name, description, categories, ingredients, instructions, prepTime, cookTime, servings, author, imageUrl } = req.body;
         const newRecipe = new Recipe({ name, description, categories, ingredients, instructions, prepTime, cookTime, servings, author, imageUrl });

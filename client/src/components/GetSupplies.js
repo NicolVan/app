@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from '../AuthProvider';
-import { API_URL } from '../constants'
+import { AuthContext } from './AuthProvider';
+import { API_URL } from './constants'
+import DeleteSuppliesButton from './suplicecomponent/DeleteSuppliesButton';
+import EditSuppliesButton from './suplicecomponent/EditSuppliesButton';
 
 const GetSupplies = () => {
     const [items, setItems] = useState([]);
@@ -45,6 +47,14 @@ const GetSupplies = () => {
             }
         });
     };
+    
+    const handleDelete = (id) => {
+        setItems(items.filter(item => item._id !== id));
+    };
+
+    const handleEdit = (id, updatedItem) => {
+        setItems(items.map(item => item._id === id ? updatedItem : item));
+    };
 
     return (
         <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
@@ -87,14 +97,26 @@ const GetSupplies = () => {
                             {items.length === 0 ? (
                             <p className='text-black'>No supplies found</p>
                             ) : (
-                            <div className=''>
+                            <ul> 
                                 {items.map((item) => (
-                                    <div key={item._id} className='border p-4 m-2 rounded-lg'>
-                                        <h3 className='font-bold'>{item.itemName}</h3>
-                                        <p>Quantity: {item.quantity} {item.category}</p>
+                                    <div key={item._id} className='relative border p-4 m-2 rounded-lg'>
+                                        <p> {item.itemName} {item.quantity} {item.category}</p>
+                                        <div className='flex justify-end space-x-2 mt-2'>
+                                            <EditSuppliesButton
+                                                id={item._id}
+                                                item={item}
+                                                onEdit={handleEdit}
+                                                className='w-10 h-10 bg-white rounded-full shadow flex justify-center items-center'
+                                            />
+                                            <DeleteSuppliesButton
+                                                id={item._id}
+                                                onDelete={handleDelete}
+                                                className='w-10 h-10 bg-white rounded-full shadow flex justify-center items-center border border-gray-200'
+                                            />
+                                        </div>
                                     </div>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </div>
                 </div>

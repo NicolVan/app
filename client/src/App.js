@@ -7,10 +7,10 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
-import AddRecipe from './components/AddRecipe';
+import AddRecipe from './components/recipecomponent/AddRecipe';
 import GetSaveRecipe from './components/GetSaveRecipe';
 import AddSupplies from './components/suplicecomponent/AddSupplies';
-import GetSupplies from './components/suplicecomponent/GetSupplies';
+import GetSupplies from './components/GetSupplies';
 import Favorite from './components/Favorite';
 
 const MainContent = () => {

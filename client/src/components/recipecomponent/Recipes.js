@@ -36,18 +36,19 @@ const Recipe = ({ user }) => {
     const fetchSavedRecipes = async () => {
       if (user) {
         try {
-          const response = await axios.get(`${ API_URL }/savedRecipes/getsaverecipes?${user._id}`,{
+          const response = await axios.get(`${ API_URL }/savedRecipes/getsaverecipes?userId=${user._id}`,{
             headers:{
               'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }});
-          const savedRecipesFromServer = response.data.reduce((acc, recipeId) => {
-            acc[recipeId] = true;
+          const savedRecipesFromServer = response.data.reduce((acc, savedRecipe) => {
+            acc[savedRecipe._id] = true;
             return acc;
           }, {});
           setSavedRecipes(savedRecipesFromServer);
-          const savedRecipesLocaly =localStorage.getItem(`savedRecipes_${user._id}`);
-          if (savedRecipesLocaly != null){
-            setSavedRecipes(JSON.parse(savedRecipesLocaly))
+
+          const savedRecipesLocaly = localStorage.getItem(`savedRecipes_${user._id}`);
+          if (savedRecipesLocaly != null) {
+            setSavedRecipes(JSON.parse(savedRecipesLocaly));
           }
         } catch (error) {
           console.error('Error fetching saved recipes:', error);

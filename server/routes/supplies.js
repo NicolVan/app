@@ -26,6 +26,28 @@ router.post('/saveSupplies', auth, async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+      await Supplies.findByIdAndDelete(req.params.id);
+      res.status(200).send({ message: 'Supply deleted successfully' });
+  } catch (error) {
+      res.status(500).send({ message: 'Error deleting supply', error });
+  }
+});
+
+router.put('/edditsupplies/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedItem = await Supplies.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedItem) {
+        return res.status(404).send('Item not found');
+    }
+    res.json(updatedItem);
+} catch (error) {
+    res.status(500).send('Server error');
+}
+});
+
 router.get('/getsupplies', auth, async (req, res) => {
   const { search, foodCat } = req.query;
   const userId = req.user.id;

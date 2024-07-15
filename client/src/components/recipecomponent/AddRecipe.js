@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import trash from './image/trash.png';
-import { API_URL } from './constants';
+import trash from '../image/trash.png';
+import { API_URL } from '../constants';
 
 const AddRecipe = () => {
   const [name, setName] = useState('');
@@ -34,7 +34,7 @@ const AddRecipe = () => {
       ingredients
     };
 
-    axios.post(`${ API_URL }/recipes`, newRecipe)
+    axios.post(`${ API_URL }/recipes/addrecipes`, newRecipe)
       .then(response => {
         console.log('Recipe added successfully:', response.data);
         alert('Recipe added Succesfully')
