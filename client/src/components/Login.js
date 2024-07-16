@@ -6,12 +6,12 @@ import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { API_URL } from './constants';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, setIsAuthenticated  } = useContext(AuthContext);
   
-
   const initialValues = {
     email: '',
     password: ''
@@ -29,29 +29,50 @@ const Login = () => {
       const token = localStorage.getItem('token');
       if (token) {
         navigate('/profile');
-      } else {setFieldError('email', 'Login failed. Please try again. Enter a correct email or password');}
+      } else {
+        setFieldError('email', 'Login failed. Please try again. Enter a correct email or password');
+      }
     } catch (error) {
       console.error('Error during login:', error);
+      setFieldError('email', 'Login failed. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
-  const responseMessage = async (response) => {
-    const { credential } = response;
+  
+  const base64UrlDecode = (base64Url) => {
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  };
 
-    if (credential) {
-      try {
-        const res = await axios.post('http://localhost:5000/api/auth/google-login', { token: credential });
-        console.log('Server Response:', res.data);
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        setIsAuthenticated(true);
-        console.log('Google login successful. Redirecting to /profile...');
-        navigate('/profile');
-        
-      } catch (error) {
-        console.error('Google login failed:', error.response ? error.response.data : error.message);
-      }
+  const responseMessage = async (response) => {
+    console.log('Login Success:', response);
+
+    const decoded = base64UrlDecode(response.credential.split('.')[1]);
+    console.log('Decoded JWT:', decoded);
+
+    const values = {
+      email: decoded.email,
+      password: '',
+      username: decoded.name
+    };
+
+    try {
+      const res = await axios.post(`${ API_URL }/auth/google-login`, { token: response.credential });
+      console.log('Server Response:', res.data);
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      setIsAuthenticated(true);
+      console.log('Google login successful. Redirecting to /profile...');
+      navigate('/profile');
+    } catch (error) {
+      console.error('Google login failed:', error.response ? error.response.data : error.message);
     }
   };
 

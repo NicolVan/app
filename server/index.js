@@ -5,8 +5,9 @@ require('dotenv').config();
 const { OAuth2Client } = require('google-auth-library');
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
-const savedRecipeRoutes = require('./routes/savedRecipes')
-const suppliesRoutes = require('./routes/supplies')
+const savedRecipeRoutes = require('./routes/savedRecipes');
+const suppliesRoutes = require('./routes/supplies');
+const shoplistRouter = require('./routes/shoplist');
 
 const app = express();
 const client = new OAuth2Client(process.env.CLIENT_ID);
@@ -18,7 +19,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/savedrecipes', savedRecipeRoutes);
 app.use('/api/supplies', suppliesRoutes);
-
+app.use('/api/shoppingList', shoplistRouter);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;

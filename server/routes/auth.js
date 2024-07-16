@@ -73,7 +73,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
 router.get('/verify', auth, (req, res) => {
   try {
     res.json({ user: req.user });
@@ -90,7 +89,6 @@ const verifyGoogleToken = async (token) => {
   return ticket.getPayload();
 };
 
-// Google login route
 router.post('/google-login', async (req, res) => {
   const { token } = req.body;
 
@@ -105,7 +103,7 @@ router.post('/google-login', async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
-      const dummyPassword = await bcrypt.hash('dummyPassword', 10);
+      const dummyPassword = await bcrypt.hash(new Date().toISOString(), 10);
       user = new User({
         email,
         googleId,
@@ -118,7 +116,6 @@ router.post('/google-login', async (req, res) => {
     const payload = { user: { id: user._id } };
     const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Add token only if it doesn't already exist
     if (!user.tokens.some((t) => t.token === jwtToken)) {
       user.tokens.push({ token: jwtToken });
       await user.save();
@@ -139,7 +136,6 @@ router.post('/google-login', async (req, res) => {
   }
 });
 
-// Complete registration route
 router.post('/complete-registration', auth, async (req, res) => {
   const { userId, username } = req.body;
 
@@ -155,7 +151,6 @@ router.post('/complete-registration', auth, async (req, res) => {
     const payload = { user: { id: user._id } };
     const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Add token only if it doesn't already exist
     if (!user.tokens.some((t) => t.token === jwtToken)) {
       user.tokens.push({ token: jwtToken });
       await user.save();

@@ -12,6 +12,7 @@ const Recipe = ({ user }) => {
   const cat = ['Soup', 'Dessert', 'Lunch', 'Dinner', 'Meal', 'Vegan', 'Pasta', 'Salad', 'Cake', 'Breakfast'];
   const [openPopupIndex, setOpenPopupIndex] = useState(null);
   const [savedRecipes, setSavedRecipes] = useState({});
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const fetchRecipes = useCallback(async () => {
     try {
@@ -96,6 +97,44 @@ const Recipe = ({ user }) => {
     });
   };
 
+  const handleCheckboxChange = (ingredient) => {
+    setSelectedIngredients((prev) =>
+      prev.includes(ingredient)
+        ? prev.filter((item) => item !== ingredient)
+        : [...prev, ingredient]
+    );
+  };
+
+  const generateShoppingList = async () => {
+    const shoppingList = recipes.reduce((acc, recipe) => {
+      recipe.ingredients.forEach(ing => {
+        if (selectedIngredients.includes(ing.name)) {
+          acc.push({
+            name: ing.name,
+            quantity: 1, 
+            purchased: false,
+          });
+        }
+      });
+      return acc;
+    }, []);
+  
+    if (user) {
+      try {
+        await axios.post(`${API_URL}/shoppingList/addshoplist`, {
+          userId: user._id,
+          items: shoppingList,
+        });
+        alert(`Shopping List:\n${shoppingList.map(item => `${item.name} (Quantity: ${item.quantity})`).join('\n')}`);
+      } catch (error) {
+        console.error('Error adding shopping list:', error);
+        alert('Failed to add shopping list. Please try again.');
+      }
+    } else {
+      alert('Please log in to create a shopping list.');
+    }
+  };
+  
   return (
     <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
       <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
@@ -198,7 +237,9 @@ const Recipe = ({ user }) => {
                                   <input 
                                     type='checkbox' 
                                     id={`ingredient-${index}`} 
-                                    name={`ingredient-${index}`} 
+                                    name={`ingredient-${index}`}
+                                    checked={selectedIngredients.includes(ingredient.name)}
+                                    onChange={() => handleCheckboxChange(ingredient.name)}
                                     className='form-checkbox' 
                                   />
                                   <label 
@@ -210,6 +251,9 @@ const Recipe = ({ user }) => {
                               ))}
                             </ul>
                             </div>
+                            <button onClick={generateShoppingList}
+                            className='w-60 h-10 mt-2 mb-5 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-orange-500 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100'
+                            >Generate Shopping List</button>
                             <div className='mb-2'>
                               <h3 className='font-bold'>Instructions: </h3>
                               <p>{recipe.instructions}</p>

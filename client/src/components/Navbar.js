@@ -43,6 +43,12 @@ function Navbar() {
                 Supplies
               </Link>
               <Link
+                to='/shopList'
+                className='text-lg font-bold hover:text-orange-500'
+              >
+                ShopList
+              </Link>
+              <Link
                 to='/profile'
                 className='text-lg font-bold hover:text-orange-500'
               >
@@ -112,7 +118,7 @@ function Navbar() {
                 </li>
                 <li>
                   <Link
-                    to='/shop-list'
+                    to='/ShopList'
                     className='hover:text-orange-500'
                     onClick={handleToggle}
                   >

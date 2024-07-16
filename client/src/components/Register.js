@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { AuthContext } from './AuthProvider';
+import { API_URL } from './constants';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', values);
+      const res = await axios.post(`${ API_URL }/auth/register`, values);
       const { user, token } = res.data;
       dispatch(setUser({ user, token }));
       localStorage.setItem('token', token);
@@ -41,7 +42,7 @@ const Register = () => {
 
     if (credential) {
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/google-login', { token: credential });
+        const res = await axios.post(`${ API_URL }/auth/google-login`, { token: credential });
         console.log('Server Response:', res.data);
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('user', JSON.stringify(res.data.user));
