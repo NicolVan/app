@@ -125,7 +125,7 @@ const Recipe = ({ user }) => {
           userId: user._id,
           items: shoppingList,
         });
-        alert(`Shopping List:\n${shoppingList.map(item => `${item.name} (Quantity: ${item.quantity})`).join('\n')}`);
+        alert('The shop list has been successfully generated')
       } catch (error) {
         console.error('Error adding shopping list:', error);
         alert('Failed to add shopping list. Please try again.');

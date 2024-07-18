@@ -18,6 +18,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/editshoplist/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedItem = await ShoppingList.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedItem) {
+        return res.status(404).send('Item not found');
+    }
+    res.json(updatedItem);
+} catch (error) {
+    res.status(500).send('Server error');
+}
+});
+
 router.post('/addshoplist', async (req, res) => {
     const { userId, items } = req.body;
   
