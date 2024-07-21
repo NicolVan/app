@@ -13,6 +13,7 @@ import AddSupplies from './components/suplicecomponent/AddSupplies';
 import GetSupplies from './components/GetSupplies';
 import Favorite from './components/Favorite';
 import ShopList from './components/ShopList';
+import AddShopList from './components/shoplistcomponent/AddShopList';
 
 const MainContent = () => {
   return (
@@ -26,6 +27,7 @@ const MainContent = () => {
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/shopList' element={<ShopList />} />
+      <Route path='/addshoplist' element={<AddShopList />} />
     </Routes>
   );
 };

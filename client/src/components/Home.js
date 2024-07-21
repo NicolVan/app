@@ -25,6 +25,9 @@ const Home = () => {
  const navigateToSupplies=()=> {
   navigate('/supplies');
  }
+ const navigateToAddShopList=() =>{
+  navigate('/addshoplist')
+ }
  if (!user) {
   return <div>Please log in to access this page.</div>;
 }
@@ -51,6 +54,10 @@ const Home = () => {
         <button
           className='ml-10 text-xl border-gray-200 w-full text-left underline decoration-solid hover:text-orange-500'
           onClick={navigateToSupplies}>Supplies
+        </button>
+        <button
+          className='ml-10 text-xl border-gray-200 w-full text-left underline decoration-solid hover:text-orange-500'
+          onClick={navigateToAddShopList}>AddShopList
         </button>
         <br/>
         <button onClick={handleLogout} className='text-lg font-bold hover:text-orange-500'>Log Out</button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
+import trash from '../image/trash.png';
 
 const DeleteShoppingListButton = ({ listId, onDelete }) => {
   const handleDelete = async () => {
@@ -25,7 +26,9 @@ const DeleteShoppingListButton = ({ listId, onDelete }) => {
 
   return (
     <button onClick={handleDelete} className='absolute top-2 right-2 text-black py-2 px-4 rounded'>
-    x
+    <img src={trash} alt='trash'
+      className='w-4 h-4'
+    />
     </button>
   );
 };

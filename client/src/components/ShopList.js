@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from './constants';
 import { AuthContext } from './AuthProvider';
@@ -10,6 +11,7 @@ const ShopList = () => {
   const [shoppingLists, setShoppingLists] = useState([]);
   const { user } = useContext(AuthContext);
   const [checkedItems, setCheckedItems] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShoppingLists = async () => {
@@ -67,14 +69,22 @@ const ShopList = () => {
     );
   };
 
+  const navigateToAddShopList=() =>{
+    navigate('/addshoplist')
+   }
+
   return (
     <div className='min-h-screen bg-orange-100 py-6 flex flex-col justify-center sm:py-12'>
       <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 w-auto'>
         <div className='rounded-lg px-8 py-6 mx-auto my-8 grid text-center'>
           <h2 className='text-2xl font-bold mb-4'>Your Shopping Lists</h2>
           <div className='grid grid-cols-3 space-x-4 justify-center rounded-xl text-center'>
+          <button
+            className='border-dotted border-2 border-gray-200 w-36 h-96 ml-10 text-xl text-center hover:text-orange-500'
+             onClick={navigateToAddShopList}>+
+          </button>
             {shoppingLists.map((list, listIndex) => (
-              <div key={listIndex} className='relative grid mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-xl w-96 rounded-xl bg-clip-border border border-gray-200'>
+              <div key={listIndex} className='relative grid  mt-2 ml-2 justify-items-center text-gray-700 bg-white shadow-xl w-96 rounded-xl bg-clip-border border border-gray-200'>
                 <h3 className='text-xl font-bold'>Shop list {listIndex + 1}</h3>
                 <DeleteShoppingListButton
                   listId={list._id}
