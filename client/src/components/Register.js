@@ -71,7 +71,7 @@ const Register = () => {
             <div className='relative py-3 sm:max-w-xl sm:mx-auto'>
               <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
                 <div className='max-w-md mx-auto'>
-                  <div>'
+                  <div>
                     <h1 className='text-2xl font-semibold'>Register</h1>
                   </div>
                   <div className='divide-y divide-gray-200'>
