@@ -1,0 +1,7 @@
+{
+    "prettier.htmlWhitespaceSensitivity": "strict",
+    "prettier.endOfLine": "auto",
+    "prettier.vueIndentScriptAndStyle": true,
+    "prettier.withNodeModules": true,
+    "prettier.singleAttributePerLine": true
+}

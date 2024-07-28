@@ -109,6 +109,7 @@ router.post('/google-login', async (req, res) => {
         googleId,
         username: name,
         password: dummyPassword,
+        refreshToken: refresh_token,
       });
       await user.save();
     }
@@ -167,6 +168,44 @@ router.post('/complete-registration', auth, async (req, res) => {
     });
   } catch (error) {
     console.error('Error completing registration:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.post('/refresh-token', async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.user.id);
+
+    if (!user || !user.tokens.some((t) => t.token === token)) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const response = await axios.post(`https://oauth2.googleapis.com/token`, {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      refresh_token: user.refreshToken,
+      grant_type: 'refresh_token'
+    });
+
+    const newAccessToken = response.data.access_token;
+
+    const payload = { user: { id: user._id } };
+    const newJwtToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    user.tokens = user.tokens.filter((t) => t.token !== token);
+    user.tokens.push({ token: newJwtToken });
+    await user.save();
+
+    res.json({ token: newJwtToken, googleAccessToken: newAccessToken });
+  } catch (error) {
+    console.error('Error refreshing token:', error.message);
     res.status(500).json({ message: 'Server error' });
   }
 });
