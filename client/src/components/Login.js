@@ -57,12 +57,6 @@ const Login = () => {
     const decoded = base64UrlDecode(response.credential.split('.')[1]);
     console.log('Decoded JWT:', decoded);
 
-    const values = {
-      email: decoded.email,
-      password: '',
-      username: decoded.name
-    };
-
     try {
       const res = await axios.post(`${ API_URL }/auth/google-login`, { token: response.credential });
       console.log('Server Response:', res.data);

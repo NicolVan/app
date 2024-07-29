@@ -177,7 +177,7 @@ const handleCheckboxChange = (ingredient) => {
                                     />
                                         {openPopupIndex === index && (
                                           <>
-                                              <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+                                              <div className='fixed inset-0 bg-black bg-opacity-50 z-40'></div>
                                               <Popup open={true} onClose={() => setOpenPopupIndex(null)}>
                                                   <div className='relative p-4 h-[900px] w-[700px] bg-gray-100 overflow-scroll shadow-xl rounded-lg'>
                                                       <div className='p-4 h-auto w-[650px] bg-white rounded-lg shadow-xl'>
@@ -199,7 +199,7 @@ const handleCheckboxChange = (ingredient) => {
                                                                   {recipe.ingredients.map((ingredient, index) => (
                                                                       <li key={index} className='flex items-center space-x-2'>
                                                                           <input 
-                                                                              type="checkbox" 
+                                                                              type='checkbox' 
                                                                               id={`ingredient-${index}`} 
                                                                               name={`ingredient-${index}`} 
                                                                               checked={selectedIngredients.includes(ingredient.name)}
