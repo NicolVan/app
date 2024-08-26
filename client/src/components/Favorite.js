@@ -51,7 +51,7 @@ const Favorite = () => {
     };
 
     fetchSavedRecipes();
-  }, [categoryFilter, nameFilter])
+  }, [user?._id,categoryFilter, nameFilter])
 
   const handleCategoryClick = (category) => {
     setCategoryFilter(category === categoryFilter ? '' : category);
